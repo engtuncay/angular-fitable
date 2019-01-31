@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { OzColType } from '../../metadata/OzColType.enum';
+import { FiColType } from './FiColType';
 
 @Component({
   selector: 'ng-table',
@@ -57,7 +57,7 @@ export class NgTableComponent {
 
 
   // Table values
-  ozcoltype = OzColType;
+  ozcoltype = FiColType;
 
   public currentItem:any;
  
@@ -140,11 +140,11 @@ export class NgTableComponent {
     let propertyName:string = column.name;    
     let cellvalue = propertyName.split('.').reduce((prev:any, curr:string) => prev[curr], row);
 
-    if(column.colType == OzColType.double && cellvalue !== undefined){
+    if(column.colType == FiColType.double && cellvalue !== undefined){
       cellvalue= cellvalue.toFixed(2);
     }
 
-    if(column.colType ==OzColType.boolean){
+    if(column.colType ==FiColType.boolean){
       
     }
 

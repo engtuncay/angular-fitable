@@ -1,8 +1,3 @@
-<h1>
-  test-comp works!
-</h1>
-
-
 <div class="row">
   <div class="col-md-4">
     <input *ngIf="config.filtering" placeholder="Filter all columns"
@@ -20,7 +15,7 @@
 
 <!-- config de columns tanımlıyor-->
 
-<pagination *ngIf="config.paging"
+<!-- <pagination *ngIf="config.paging"
             class="pagination-sm"
             [(ngModel)]="page"
             [totalItems]="length"
@@ -32,6 +27,6 @@
             (numPages)="numPages = $event">
 </pagination>
 
-<pre *ngIf="config.paging" class="card card-block card-header">Page: {{page}} / {{numPages}}</pre>
+<pre *ngIf="config.paging" class="card card-block card-header">Page: {{page}} / {{numPages}}</pre> -->
 
 <!-- <ng2-smart-table [settings]="settings" [source]="data2"></ng2-smart-table> -->
