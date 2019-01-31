@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TableData } from '../table/table-data';
 import { NgTableFilteringDirective } from '../table/ng-table-filtering.directive';
-import { FiTableCol } from "../table/FiTableCol";
+import { FiTableCol, FiTableConfig } from "../table/FiTableInterfaces";
 
 
 @Component({
@@ -13,6 +13,7 @@ export class TestCompComponent implements OnInit {
 
 
   public rows:Array<any> = [];
+  
   public columns:Array<FiTableCol> = [
     {title: 'Name', name: 'name', filtering: {filterString: '', placeholder: 'Filter by name'} },
     {
@@ -33,14 +34,18 @@ export class TestCompComponent implements OnInit {
   public numPages:number = 1;
   public length:number = 0;
 
-  public config:any = {
-    paging: true,
+  public config:FiTableConfig = {
+    paging: false,
     sorting: {columns: this.columns},
     filtering: {filterString: ''},
-    className: ['table-striped', 'table-bordered']
+    className: ['table-bordered']
   };
 
+  // className Tablestriped vermeyelim
+
   private data:Array<any> = TableData;
+
+  // Methods
 
   public constructor() {
     this.length = this.data.length;
@@ -141,49 +146,6 @@ export class TestCompComponent implements OnInit {
   public onCellClick(data: any): any {
     console.log(data);
   }
-
-
-  // // settings = {
-  // //   columns: {
-  // //     id: {
-  // //       title: 'ID'
-  // //     },
-  // //     name: {
-  // //       title: 'Full Name'
-  // //     },
-  // //     username: {
-  // //       title: 'User Name'
-  // //     },
-  // //     email: {
-  // //       title: 'Email'
-  // //     }
-  // //   }
-  // // };
-
-  
-  // // data2 = [
-  // //   {
-  // //     id: 1,
-  // //     name: "Leanne Graham",
-  // //     username: "Bret",
-  // //     email: "Sincere@april.biz"
-  // //   },
-  // //   {
-  // //     id: 2,
-  // //     name: "Ervin Howell",
-  // //     username: "Antonette",
-  // //     email: "Shanna@melissa.tv"
-  // //   },
-    
-  // //   // ... list of items
-    
-  // //   {
-  // //     id: 11,
-  // //     name: "Nicholas DuBuque",
-  // //     username: "Nicholas.Stanton",
-  // //     email: "Rey.Padberg@rosamond.biz"
-  // //   }
-  // // ];
 
   
 

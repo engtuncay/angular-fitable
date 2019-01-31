@@ -1,9 +1,12 @@
 import { Directive, EventEmitter, Input, Output, HostListener } from '@angular/core';
+import { FiTableConfig, FiTableCol } from './FiTableInterfaces';
 
 @Directive({selector: '[ngTableSorting]'})
 export class NgTableSortingDirective {
-  @Input() public ngTableSorting:any;
-  @Input() public column:any;
+
+  @Input() public ngTableSorting:FiTableConfig;
+  @Input() public column:FiTableCol;
+
   @Output() public sortChanged:EventEmitter<any> = new EventEmitter();
 
   @Input()
@@ -14,16 +17,22 @@ export class NgTableSortingDirective {
   public set config(value:any) {
     this.ngTableSorting = value;
   }
-
+  /**
+   * Üç tip arasında geçiş(toggle) yapmaktır. 
+   * asc -> desc -> '' 
+   *  
+   * @param event Mouse event
+   */
   @HostListener('click', ['$event'])
   public onToggleSort(event:any):void {
+
+    //console.log("sort directive on header clicked");
     if (event) {
+      // TODO search:preventDefault ne işe yarıyor
       event.preventDefault();
     }
 
     if (this.ngTableSorting && this.column && this.column.sort !== false) {
-
-      console.log("directive sort");
 
       switch (this.column.sort) {
         case 'asc':
