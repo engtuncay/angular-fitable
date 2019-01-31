@@ -4,47 +4,8 @@ import { FiColType } from './FiColType';
 
 @Component({
   selector: 'ng-table',
-  styleUrls: ['./ng-table.scss'],
-  template: `
-    <table class="table dataTable" ngClass="{{config.className || ''}}"
-           role="grid" style="width: 100%;">
-      <thead>
-        <tr role="row">
-          <th *ngFor="let column of columns" [ngTableSorting]="config" [column]="column" 
-              (sortChanged)="onChangeTable($event)" ngClass="{{column.className || ''}}">
-            {{column.title}}
-            <i *ngIf="config && column.sort" class="pull-right fa"
-              [ngClass]="{'fa-chevron-down': column.sort === 'desc', 'fa-chevron-up': column.sort === 'asc'}"></i>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-      <tr *ngIf="showFilterRow">
-        <td *ngFor="let column of columns">
-          <input *ngIf="column.filtering" placeholder="{{column.filtering.placeholder}}"
-                 [ngTableFiltering]="column.filtering"
-                 class="form-control"
-                 style="width: auto;"
-                 (tableChanged)="onChangeTable(config)"/>
-        </td>
-      </tr>
-        <tr *ngFor="let row of rows" [class.active]="currentItem===row" (click)="rowClick($event,row)">
-          
-        <td (click)="cellClick(row, column.name)" *ngFor="let column of columns"  ngClass="{{column.colClassName || ''}}">
-          <span *ngIf="column.colType!=ozcoltype.boolean">
-            <span [innerHtml]="sanitize(getData(row, column))"></span>
-          </span>        
-                    
-          <span *ngIf="column.colType==ozcoltype.boolean">
-              <input type="checkbox" [value]="row[column.name]">          
-          </span>        
-
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  `
-  
+  styleUrls: ['./ng-table.css'],
+  templateUrl: './fi-table.component.html',
 })
 export class NgTableComponent {
 
@@ -156,6 +117,8 @@ export class NgTableComponent {
   }
 
   public rowClick(event:any,item:any){
+    console.log('event');
+    console.log(event);
     this.currentItem = item;
   }
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TableData } from '../table/table-data';
 import { NgTableFilteringDirective } from '../table/ng-table-filtering.directive';
-// import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { FiTableCol } from "../table/FiTableCol";
 
 
 @Component({
@@ -13,8 +13,8 @@ export class TestCompComponent implements OnInit {
 
 
   public rows:Array<any> = [];
-  public columns:Array<any> = [
-    {title: 'Name', name: 'name', filtering: {filterString: '', placeholder: 'Filter by name'}},
+  public columns:Array<FiTableCol> = [
+    {title: 'Name', name: 'name', filtering: {filterString: '', placeholder: 'Filter by name'} },
     {
       title: 'Position',
       name: 'position',
@@ -26,6 +26,7 @@ export class TestCompComponent implements OnInit {
     {title: 'Start date', className: 'text-warning', name: 'startDate'},
     {title: 'Salary ($)', name: 'salary'}
   ];
+  
   public page:number = 1;
   public itemsPerPage:number = 10;
   public maxSize:number = 5;
