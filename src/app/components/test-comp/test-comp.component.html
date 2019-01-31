@@ -3,12 +3,12 @@
     <input *ngIf="config.filtering" placeholder="Filter all columns"
            [ngTableFiltering]="config.filtering"
            class="form-control"
-           (tableChanged)="onChangeTable(config)"/>
+           (tableChanged)="onChangeTable()"/>
   </div>
 </div>
 <br>
+<!-- (tableChanged)="onChangeTable(config)" çıkartıldı -->
 <ng-table [config]="config"
-          (tableChanged)="onChangeTable(config)"
           (cellClicked)="onCellClick($event)"
           [rows]="rows" [columns]="columns">
 </ng-table>

@@ -16,10 +16,10 @@
                  [ngTableFiltering]="column.filtering"
                  class="form-control"
                  style="width: auto;"
-                 (tableChanged)="onChangeTable(config)"/>
+                 (tableChanged)="onFilterSortTable()"/>
         </td>
       </tr>
-        <tr *ngFor="let row of rows" [class.active]="currentItem===row" (click)="rowClick($event,row)">
+        <tr *ngFor="let row of rowsFiltered" [class.active]="currentItem===row" (click)="rowClick($event,row)">
           
         <td (click)="cellClick(row, column.name)" *ngFor="let column of columns"  ngClass="{{column.colClassName || ''}}">
           <span *ngIf="column.colType!=ozcoltype.boolean">

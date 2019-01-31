@@ -17,6 +17,7 @@ export class NgTableSortingDirective {
   public set config(value:any) {
     this.ngTableSorting = value;
   }
+
   /**
    * Üç tip arasında geçiş(toggle) yapmaktır. 
    * asc -> desc -> '' 
@@ -32,7 +33,11 @@ export class NgTableSortingDirective {
       event.preventDefault();
     }
 
+
+
     if (this.ngTableSorting && this.column && this.column.sort !== false) {
+
+      this.column.sortPrevious= this.column.sort;
 
       switch (this.column.sort) {
         case 'asc':

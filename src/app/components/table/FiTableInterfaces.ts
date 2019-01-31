@@ -9,6 +9,7 @@ export interface FiTableCol {
     className?: any;
     colType?: FiColType;
     colClassName?: string;
+    sortPrevious?: string;
 
 }
 
