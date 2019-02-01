@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 @Component({
   selector: 'ng-table',
   styleUrls: ['./ng-table.css'],
-  templateUrl: './fi-table.component.html',
+  templateUrl: './ng-table.component.html',
 })
 export class NgTableComponent {
 
