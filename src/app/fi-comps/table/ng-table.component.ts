@@ -14,9 +14,11 @@ export class NgTableComponent {
   // Input and Outputs(Events)
 
   // Table'ın Datası rows alanındadır.
-  @Input() public rows: Array<any> = [];
+  //@Input() public rows: Array<any> = [];
+  @Input() public allowRemoteFilter: boolean = false;
 
   public rowsFiltered: Array<any> = [];
+  private _rows :Array<any> = [];
 
   @Output() public tableChanged: EventEmitter<any> = new EventEmitter();
   @Output() public cellClicked: EventEmitter<any> = new EventEmitter();
@@ -38,16 +40,29 @@ export class NgTableComponent {
   private _columns: Array<FiTableCol> = [];
   private _config: FiTableConfig = {};
 
-
   public constructor(private sanitizer: DomSanitizer) {
   }
 
   public ngOnInit():void {
     //this.onChangeTable(this.config);
-    this.rowsFiltered = this.rows;
+    //this.rowsFiltered = this.rows;
   }
 
-  
+  @Input()
+  public set rows(rowsData: Array<any>) {
+
+    for (let index = 0; index < rowsData.length; index++) {
+      const element = rowsData[index];
+      element.fiIndex = index+1;
+    }
+
+    this._rows = rowsData;
+    this.rowsFiltered = rowsData;
+  }
+
+  public get rows(): Array<any>{
+    return this._rows;
+  }
 
   @Input()
   public set config(conf: FiTableConfig) {
@@ -139,11 +154,18 @@ export class NgTableComponent {
 
     // diger sütunlar sort alanı(property) temizlenir.
     this._columns.forEach((col: FiTableCol) => {
-      //console.log('column');
-      //console.log(col);
-      if (col.name !== columnToSortName && col.sort !== false) {
+      
+      let colNameBinded= false;
+
+      if (!colNameBinded && columnToSortName =='') {
+        col.sort='';
+        colNameBinded=true;
+      }
+
+      if (!colNameBinded && col.name !== columnToSortName && col.sort !== false) {
         col.sort = '';
       }
+
     });
 
     // this.tableChanged.emit({sorting: this.configColumns});
@@ -154,15 +176,15 @@ export class NgTableComponent {
     // }
 
     // if (this.config.sorting) {
-      // Object.assign(hedef,kaynaklar...)
+    // Object.assign(hedef,kaynaklar...)
     //   Object.assign(this.config.sorting, this.config.sorting);
     // }
 
-    const filteredData = this.changeFilter(this.rowsFiltered, this.config);
+    const filteredData = this.changeFilter(this._rows, this.config);
     const sortedData = this.changeSort(filteredData, columnToSort);
     // FIXME buradaki eski yapı düzeltilmedi
     // this.rows = page && config.paging ? this.changePage(page, sortedData) : sortedData;
-    this.rows = sortedData;
+    this.rowsFiltered = sortedData;
     // FIXME buradaki eski yapı düzeltilmedi
     // this.length = sortedData.length;
 
@@ -229,18 +251,16 @@ export class NgTableComponent {
 
     // console.log(filteredData);
 
-    if (filteredData[0].fiIndex === undefined) {
-      console.log('fi Index baglandı');
-      for (let index = 0; index < filteredData.length; index++) {
-        const element = filteredData[index];
-        element.fiIndex = index;
-      }
+    // if (filteredData[0].fiIndex === undefined) {
+    //   console.log('fi Index baglandı');
+    //   for (let index = 0; index < filteredData.length; index++) {
+    //     const element = filteredData[index];
+    //     element.fiIndex = index;
+    //   }
 
-    }
+    // }
 
     //console.log(filteredData);
-
-
 
     // simple sorting
     return filteredData.sort((previous: any, current: any) => {
@@ -262,7 +282,7 @@ export class NgTableComponent {
     this.columns.forEach((column: any) => {
       if (column.filtering) {
         filteredData = filteredData.filter((item: any) => {
-          return item[column.name].match(column.filtering.filterString);
+          return item[column.name].toLocaleLowerCase().match(column.filtering.filterString.toLocaleLowerCase());
         });
       }
     });
@@ -273,14 +293,18 @@ export class NgTableComponent {
 
     if (config.filtering.columnName) {
       return filteredData.filter((item: any) =>
-        item[config.filtering.columnName].match(this.config.filtering.filterString));
+        item[config.filtering.columnName].toLocaleLowerCase().match(this.config.filtering.filterString.toLocaleLowerCase()));
     }
 
     const tempArray: Array<any> = [];
     filteredData.forEach((item: any) => {
       let flag = false;
       this.columns.forEach((column: any) => {
-        if (item[column.name].toString().match(this.config.filtering.filterString)) {
+        //if (item[column.name].toString().match(this.config.filtering.filterString)) {
+        //console.log('303 ngtablecomp');
+        //console.log(item[column.name].toString().toLocaleLowerCase());
+        //console.log(this.config.filtering.filterString.toLocaleLowerCase());
+        if (item[column.name].toString().toLocaleLowerCase().match(this.config.filtering.filterString.toLocaleLowerCase())) {
           flag = true;
         }
       });
@@ -310,7 +334,7 @@ export class NgTableComponent {
   }
 
   public cellClick(row: any, column: any): void {
-    console.log('cell click event on Table Component');
+    //console.log('cell click event on Table Component');
     this.cellClicked.emit({row, column});
   }
 
