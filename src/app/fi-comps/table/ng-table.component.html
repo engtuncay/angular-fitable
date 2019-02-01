@@ -1,36 +1,34 @@
-<table class="table fiTable" ngClass="{{config.className || ''}}"  style="width: 100%;">     <!-- role="grid" class dan dataTable çıkarıldı -->
-	<thead>
-		<tr role="row">
+<table class="table fiTable" ngClass="{{config.className || ''}}" style="width: 100%;">
+  <!-- role="grid" class dan dataTable çıkarıldı -->
+  <thead>
+    <tr role="row">
       <!-- ngtablesorting directive -->
-			<th *ngFor="let column of columns" [ngTableSorting]="config" [column]="column" (sortChanged)="onSortTable($event)" ngClass="{{column.className || ''}}">
-				{{column.title}}
-				<i *ngIf="config && column.sort" class="pull-right fa"
-              [ngClass]="{'fa-chevron-down': column.sort === 'desc', 'fa-chevron-up': column.sort === 'asc'}"></i>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-      <tr *ngIf="showFilterRow">
-        <td *ngFor="let column of columns">
-          <input *ngIf="column.filtering" placeholder="{{column.filtering.placeholder}}"
-                 [ngTableFiltering]="column.filtering"
-                 class="form-control"
-                 style="width: auto;"
-                 (tableChanged)="onFilterSortTable()"/>
-        </td>
-      </tr>
-        <tr *ngFor="let row of rowsFiltered" [class.active]="currentItem===row" (click)="rowClick($event,row)">
-          
-        <td (click)="cellClick(row, column.name)" *ngFor="let column of columns"  ngClass="{{column.colClassName || ''}}">
-          <span *ngIf="column.colType!=ozcoltype.boolean">
-            <span [innerHtml]="sanitize(getData(row, column))"></span>
-          </span>        
-                    
-          <span *ngIf="column.colType==ozcoltype.boolean">
-              <input type="checkbox" [value]="row[column.name]">          
-          </span>        
+      <th *ngFor="let column of columns" [ngTableSorting]="config" [column]="column" (sortChanged)="onSortTable($event)"
+        ngClass="{{column.className || ''}}">
+        {{column.title}}
+        <i *ngIf="config && column.sort" class="pull-right fa" [ngClass]="{'fa-chevron-down': column.sort === 'desc', 'fa-chevron-up': column.sort === 'asc'}"></i>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngIf="showFilterRow">
+      <td *ngFor="let column of columns">
+        <input *ngIf="column.filtering" placeholder="{{column.filtering.placeholder}}" [ngTableFiltering]="column.filtering"
+          class="form-control" style="width: auto;" (tableChanged)="onFilterSortTable()" />
+      </td>
+    </tr>
+    <tr *ngFor="let row of rowsFiltered" [class.active]="currentItem===row" (click)="rowClick($event,row)">
 
-          </td>
-        </tr>
-      </tbody>
-    </table>
+      <td (click)="cellClick(row, column.name)" *ngFor="let column of columns" ngClass="{{column.colClassName || ''}}">
+        <span *ngIf="column.colType!=ozcoltype.boolean">
+          <span [innerHtml]="sanitize(getData(row, column))"></span>
+        </span>
+
+        <span *ngIf="column.colType==ozcoltype.boolean">
+          <input type="checkbox" [value]="row[column.name]">
+        </span>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
