@@ -1,9 +1,8 @@
 
 export class FiCollection {
 
-    
-
     constructor() {
         
     }
+    
 }
