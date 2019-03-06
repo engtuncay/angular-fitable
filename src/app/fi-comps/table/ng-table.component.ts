@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { FiColType } from './FiColType';
 import { FiTableCol, FiTableConfig } from './FiTableInterfaces';
-import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'ng-table',
@@ -14,8 +13,8 @@ export class NgTableComponent {
   // Input and Outputs(Events)
 
   // Table'ın Datası rows alanındadır.
-  //@Input() public rows: Array<any> = [];
-  @Input() public allowRemoteFilter: boolean = false;
+  // @Input() public rows: Array<any> = [];
+  @Input() public allowRemoteFilter = false;
 
   public rowsFiltered: Array<any> = [];
   private _rows :Array<any> = [];
@@ -70,7 +69,7 @@ export class NgTableComponent {
     // FIXME class diger string olarak gönderilebilir
     // Classname array olarak gelmişse onlar birleştirilir.
     if (!conf.className) {
-      conf.className = 'table-bordered';  // table-striped
+      conf.className = 'table-bordered';  // table-striped is removed.
     }
     if (conf.className instanceof Array) {
       conf.className = conf.className.join(' ');
@@ -142,7 +141,7 @@ export class NgTableComponent {
 
   public onFilterSortTable(): void {
 
-    console.log('Filter and Sort');
+    //console.log('Filter and Sort');
 
     let columnToSort = this.currentColumnToSort;
 
@@ -339,8 +338,8 @@ export class NgTableComponent {
   }
 
   public rowClick(event: any, item: any) {
-    console.log('row click event:');
-    console.log(event);
+    //console.log('row click event:');
+    //console.log(event);
     this.currentItem = item;
   }
 
