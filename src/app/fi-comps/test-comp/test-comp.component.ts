@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { TableData } from '../table/table-data';
-import { FiTableCol, FiTableConfig } from '../table/FiTableInterfaces';
+import { TableData } from '../fi-table/table-data';
+import { FiTableCol, FiTableConfig } from '../fi-table/fiTableInterfaces';
 
 @Component({
   selector: 'app-test-comp',

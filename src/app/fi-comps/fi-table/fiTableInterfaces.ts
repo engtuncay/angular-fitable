@@ -1,4 +1,4 @@
-import { FiColType } from "./FiColType";
+import { FiColType } from "./fiColType";
 
 export interface FiTableCol {
 

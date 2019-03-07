@@ -1,7 +1,7 @@
 import { Directive, EventEmitter, Input, Output, HostListener } from '@angular/core';
 
-@Directive({selector: '[ngTablePaging]'})
-export class NgTablePagingDirective {
+@Directive({selector: '[fiTablePaging]'})
+export class FiTablePagingDirective {
   @Input() public ngTablePaging:boolean = true;
   @Output() public tableChanged:EventEmitter<any> = new EventEmitter();
 

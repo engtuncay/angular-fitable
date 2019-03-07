@@ -1,14 +1,14 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { FiColType } from './FiColType';
-import { FiTableCol, FiTableConfig } from './FiTableInterfaces';
+import { FiColType } from './fiColType';
+import { FiTableCol, FiTableConfig } from './fiTableInterfaces';
 
 @Component({
-  selector: 'ng-table',
-  styleUrls: ['./ng-table.css'],
-  templateUrl: './ng-table.component.html',
+  selector: 'fi-table',
+  styleUrls: ['./fi-table.css'],
+  templateUrl: './fi-table.component.html',
 })
-export class NgTableComponent {
+export class FiTableComponent implements OnInit {
 
   // Input and Outputs(Events)
 
@@ -16,8 +16,8 @@ export class NgTableComponent {
   // @Input() public rows: Array<any> = [];
   @Input() public allowRemoteFilter = false;
 
-  public rowsFiltered: Array<any> = [];
-  private _rows :Array<any> = [];
+  public rowsFiltered: any[] = [];
+  private _rows:any[] = [];
 
   @Output() public tableChanged: EventEmitter<any> = new EventEmitter();
   @Output() public cellClicked: EventEmitter<any> = new EventEmitter();
@@ -32,23 +32,23 @@ export class NgTableComponent {
   public length = 0;
 
   public currentItem: any;
-  public currentColumnToSort : FiTableCol;
+  public currentColumnToSort: FiTableCol;
 
   public showFilterRow: Boolean = false;
 
-  private _columns: Array<FiTableCol> = [];
+  private _columns: FiTableCol[] = [];
   private _config: FiTableConfig = {};
 
   public constructor(private sanitizer: DomSanitizer) {
   }
 
-  public ngOnInit():void {
+  ngOnInit() {
     //this.onChangeTable(this.config);
     //this.rowsFiltered = this.rows;
   }
 
   @Input()
-  public set rows(rowsData: Array<any>) {
+  public set rows(rowsData: any[]) {
 
     for (let index = 0; index < rowsData.length; index++) {
       const element = rowsData[index];
@@ -59,7 +59,7 @@ export class NgTableComponent {
     this.rowsFiltered = rowsData;
   }
 
-  public get rows(): Array<any>{
+  public get rows(): any[] {
     return this._rows;
   }
 
@@ -79,7 +79,7 @@ export class NgTableComponent {
   }
 
   @Input()
-  public set columns(fiColumns: Array<FiTableCol>) {
+  public set columns(fiColumns: FiTableCol[]) {
 
     fiColumns.forEach((value: FiTableCol) => {
 
@@ -106,7 +106,7 @@ export class NgTableComponent {
     return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 
-  public get columns(): Array<FiTableCol> {
+  public get columns(): FiTableCol[] {
     return this._columns;
   }
 
@@ -116,7 +116,7 @@ export class NgTableComponent {
 
   public get configColumns(): any {
 
-    const sortColumns: Array<any> = [];
+    const sortColumns: any[] = [];
 
     this.columns.forEach((column: any) => {
       if (column.sort) {
@@ -147,7 +147,7 @@ export class NgTableComponent {
 
     let columnToSortName = '';
 
-    if(this.currentColumnToSort!=undefined){
+    if(this.currentColumnToSort!=undefined) {
       columnToSortName = this.currentColumnToSort.name;
     }
 
@@ -193,15 +193,15 @@ export class NgTableComponent {
 
   public onSortTable(columnToSort: FiTableCol): void {
 
-    this.currentColumnToSort = columnToSort
+    this.currentColumnToSort = columnToSort;
 
     this.onFilterSortTable();
 
   }
 
-  public changeSort(filteredData: Array<any>, columnToSort: FiTableCol): any {
+  public changeSort(filteredData: any[], columnToSort: FiTableCol): any {
 
-    if(columnToSort==undefined){
+    if(columnToSort==undefined) {
       return filteredData;
     }
     
@@ -276,7 +276,7 @@ export class NgTableComponent {
 
   public changeFilter(data: any, config: any): any {
 
-    let filteredData: Array<any> = data;
+    let filteredData: any[] = data;
 
     this.columns.forEach((column: any) => {
       if (column.filtering) {
@@ -295,7 +295,7 @@ export class NgTableComponent {
         item[config.filtering.columnName].toLocaleLowerCase().match(this.config.filtering.filterString.toLocaleLowerCase()));
     }
 
-    const tempArray: Array<any> = [];
+    const tempArray: any[] = [];
     filteredData.forEach((item: any) => {
       let flag = false;
       this.columns.forEach((column: any) => {

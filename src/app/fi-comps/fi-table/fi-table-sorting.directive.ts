@@ -1,21 +1,21 @@
-import { Directive, EventEmitter, Input, Output, HostListener } from '@angular/core';
-import { FiTableConfig, FiTableCol } from './FiTableInterfaces';
+import { Directive, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import { FiTableCol, FiTableConfig } from './fiTableInterfaces';
 
-@Directive({selector: '[ngTableSorting]'})
-export class NgTableSortingDirective {
+@Directive({selector: '[fiTableSorting]'})
+export class FiTableSortingDirective {
 
-  @Input() public ngTableSorting:FiTableConfig;
+  @Input() public fiTableSorting:FiTableConfig;
   @Input() public column:FiTableCol;
 
   @Output() public sortChanged:EventEmitter<any> = new EventEmitter();
 
   @Input()
   public get config():any {
-    return this.ngTableSorting;
+    return this.fiTableSorting;
   }
 
   public set config(value:any) {
-    this.ngTableSorting = value;
+    this.fiTableSorting = value;
   }
 
   /**
@@ -35,7 +35,7 @@ export class NgTableSortingDirective {
 
 
 
-    if (this.ngTableSorting && this.column && this.column.sort !== false) {
+    if (this.fiTableSorting && this.column && this.column.sort !== false) {
 
       this.column.sortPrevious= this.column.sort;
 

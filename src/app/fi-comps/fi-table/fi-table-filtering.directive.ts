@@ -6,7 +6,7 @@ function setProperty(renderer:Renderer, elementRef:ElementRef, propName:string, 
 }
 
 @Directive({selector: '[ngTableFiltering]'})
-export class NgTableFilteringDirective {
+export class FiTableFilteringDirective {
   @Input() public ngTableFiltering:any = {
     filterString: '',
     columnName: 'name'
