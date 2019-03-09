@@ -13,7 +13,6 @@
     "comment-format": [
       false,
       "check-space"
-
     ],
     "curly": true,
     "deprecation": {
@@ -88,7 +87,8 @@
       "check-else",
       "check-whitespace"
     ],
-    "prefer-const": false,  /* tek kullanımlık let ler yerine const öneriyor*/
+    "prefer-const": false,
+    /* tek kullanımlık let ler yerine const öneriyor*/
     "quotemark": [
       true,
       "single"
@@ -131,9 +131,13 @@
     "use-life-cycle-interface": true,
     "use-pipe-transform-interface": true,
     "component-class-suffix": true,
-    "directive-class-suffix": true
-  ,"align": false
-  ,"no-consecutive-blank-lines": false
-  ,"arrow-parens": false   /* lamda fonksiyonunda parametrelerin parantez içine alınmasını ister */
+    "directive-class-suffix": true,
+    "align": false,
+    "no-consecutive-blank-lines": false,
+    /* lamda fonksiyonunda parametrelerin parantez içine alınmasını ister */
+    "arrow-parens": false,
+    /* js objelerde bulunan array elemanlarının sonuna virgül ister */
+    "trailing-comma": false,
+    "ordered-imports": false
   }
 }

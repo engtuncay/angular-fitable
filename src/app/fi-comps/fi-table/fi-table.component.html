@@ -1,34 +1,55 @@
 <table class="table fiTable" ngClass="{{config.className || ''}}" style="width: 100%;">
-  <!-- role="grid", class dan dataTable çıkarıldı -->
-  <thead>
+    <!-- role="grid", class dan dataTable çıkarıldı -->
+    <thead>
     <tr role="row">
-      <!-- ngtablesorting directive -->
-      <th *ngFor="let column of columns" [fiTableSorting]="config" [column]="column" (sortChanged)="onSortTable($event)"
-        ngClass="{{column.className || ''}}">
-        {{column.title}}
-        <i *ngIf="config && column.sort" class="pull-right fa" [ngClass]="{'fa-chevron-down': column.sort === 'desc', 'fa-chevron-up': column.sort === 'asc'}"></i>
-      </th>
+        <!-- ngtablesorting directive -->
+        <th *ngFor="let column of columns" [fiTableSorting]="config" [column]="column"
+            (sortChanged)="onSortTable($event)"
+            ngClass="{{column.className || ''}}">
+            {{column.title}}
+            <i *ngIf="config && column.sort" class="pull-right fa"
+               [ngClass]="{'fa-chevron-down': column.sort === 'desc', 'fa-chevron-up': column.sort === 'asc'}"></i>
+        </th>
     </tr>
-  </thead>
-  <tbody>
+    </thead>
+    <tbody>
     <tr *ngIf="showFilterRow">
-      <td *ngFor="let column of columns">
-        <input *ngIf="column.filtering" placeholder="{{column.filtering.placeholder}}" [ngTableFiltering]="column.filtering"
-          class="form-control" style="width: auto;" (tableChanged)="onFilterSortTable()" />
-      </td>
+        <td *ngFor="let column of columns">
+            <input *ngIf="column.filtering" placeholder="{{column.filtering.placeholder}}"
+                   [ngTableFiltering]="column.filtering"
+                   class="form-control" style="width: auto;" (tableChanged)="onFilterSortTable()"/>
+        </td>
     </tr>
-    <tr *ngFor="let row of rowsFiltered" [class.active]="currentItem===row" (click)="rowClick($event,row)">
+    <tr *ngFor="let row of rowsFiltered | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize"
+        [class.active]="currentItem===row" (click)="rowClick($event,row)">
+        <td (click)="cellClick(row, column.field)" *ngFor="let column of columns"
+            ngClass="{{column.colClassName || ''}}">
 
-      <td (click)="cellClick(row, column.name)" *ngFor="let column of columns" ngClass="{{column.colClassName || ''}}">
-        <span *ngIf="column.colType!=ozcoltype.boolean">
-          <span [innerHtml]="sanitize(getData(row, column))"></span>
-        </span>
+            <!--{{column.editorType}}<br>-->
 
-        <span *ngIf="column.colType==ozcoltype.boolean">
-          <input type="checkbox" [value]="row[column.name]">
-        </span>
+            <ng-template [ngIf]="!column.editorType">
+                <span *ngIf="column.colType!=ozcoltype.boolean">
+                <span [innerHtml]="sanitize(getData(row, column))"></span>
+                </span>
 
-      </td>
+                <span *ngIf="column.colType==ozcoltype.boolean">
+                <input type="checkbox" [value]="row[column.field]">
+                </span>
+            </ng-template>
+
+            <ng-template [ngIf]="column.editorType===fiEditorType.Button">
+                <button class="btn" #fiButton (click)="column.editorAction(row,null,column,fiButton)" >{{column.editorHeader}}{{editorRenderer(column,row,null,fiButton)}}</button>
+            </ng-template>
+
+        </td>
     </tr>
-  </tbody>
+
+    </tbody>
+
+    <ngb-pagination
+            [(page)]="page"
+            [pageSize]="pageSize"
+            [collectionSize]="rowsFiltered.length"
+            (pageChange)="pageChanged(config,$event)">
+    </ngb-pagination>
 </table>

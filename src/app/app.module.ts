@@ -11,7 +11,7 @@ import { TestCompComponent } from './fi-comps/test-comp/test-comp.component';
   ],
   imports: [
     BrowserModule,
-    Ng2TableModule
+    Ng2TableModule,
   ],
   providers: [
 

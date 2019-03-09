@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TableData } from '../fi-table/table-data';
 import { FiTableCol, FiTableConfig } from '../fi-table/fiTableInterfaces';
+import {FiEditorType} from '../fi-table/FiTableEnums';
 
 @Component({
   selector: 'app-test-comp',
@@ -14,17 +15,28 @@ export class TestCompComponent implements OnInit {
 
   // , sort: 'asc' tanımlarsa açılışta sıralasın
   public columns:Array<FiTableCol> = [
-    {title: 'Name', name: 'name', filtering: {filterString: '', placeholder: 'Filter by name'} },
+    {title: 'Name', field: 'name', filtering: {filterString: '', placeholder: 'Filter by name'} },
     {
       title: 'Position',
-      name: 'position',
+      field: 'position',
       sort: false,
       filtering: {filterString: '', placeholder: 'Filter by position'}
+
     },
-    {title: 'Office', className: ['office-header', 'text-success'], name: 'office'},
-    {title: 'Extn.', name: 'ext', sort: '', filtering: {filterString: '', placeholder: 'Filter by extn.'}},
-    {title: 'Start date', className: 'text-warning', name: 'startDate'},
-    {title: 'Salary ($)', name: 'salary'}
+    {title: 'Office', className: ['office-header', 'text-success'], field: 'office'},
+    {title: 'Extn.', field: 'ext', sort: '', filtering: {filterString: '', placeholder: 'Filter by extn.'}},
+    {title: 'Start date', className: 'text-warning', field: 'startDate'},
+    {title: 'Salary ($)', field: 'salary'},
+    {title: 'Confirm',field:'confirm', editorType:FiEditorType.Button,
+      editorAction: (row, cellValue, fiColumn, fiComp:HTMLButtonElement) => {
+        console.log('Confirmed',row,cellValue,fiComp);
+        fiComp.textContent = 'Ok';
+        fiColumn.editorRenderer(row,cellValue,fiComp);
+        /*fiComp.classList.add('btn-secondary');*/
+
+        },editorHeader:'Confirm' ,editorRenderer: (row,cellValue,fiComp:HTMLButtonElement)=> {
+          fiComp.classList.add('btn-primary');
+      } }
   ];
   
   public page:number = 1;

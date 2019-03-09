@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { FiColType } from './fiColType';
+import {FiColType, FiEditorType} from './FiTableEnums';
 import { FiTableCol, FiTableConfig } from './fiTableInterfaces';
 
 @Component({
@@ -26,7 +26,8 @@ export class FiTableComponent implements OnInit {
   ozcoltype = FiColType;
 
   public page = 1;
-  public itemsPerPage = 10;
+  //public itemsPerPage = 10;
+  pageSize = 10;
   public maxSize = 5;
   public numPages = 1;
   public length = 0;
@@ -38,6 +39,8 @@ export class FiTableComponent implements OnInit {
 
   private _columns: FiTableCol[] = [];
   private _config: FiTableConfig = {};
+  fiEditorType = FiEditorType;
+
 
   public constructor(private sanitizer: DomSanitizer) {
   }
@@ -91,7 +94,7 @@ export class FiTableComponent implements OnInit {
         value.className = value.className.join(' ');
       }
 
-      const column = this._columns.find((col: any) => col.name === value.name);
+      const column = this._columns.find((col: any) => col.field === value.field);
       if (column) {
         Object.assign(column, value);
       }
@@ -131,7 +134,7 @@ export class FiTableComponent implements OnInit {
   public onChangeTable(column: FiTableCol): void {
 
     this._columns.forEach((col: FiTableCol) => {
-      if (col.name !== column.name && col.sort !== false) {
+      if (col.field !== column.field && col.sort !== false) {
         col.sort = '';
       }
     });
@@ -148,7 +151,7 @@ export class FiTableComponent implements OnInit {
     let columnToSortName = '';
 
     if(this.currentColumnToSort!=undefined) {
-      columnToSortName = this.currentColumnToSort.name;
+      columnToSortName = this.currentColumnToSort.field;
     }
 
     // diger sütunlar sort alanı(property) temizlenir.
@@ -161,7 +164,7 @@ export class FiTableComponent implements OnInit {
         colNameBinded=true;
       }
 
-      if (!colNameBinded && col.name !== columnToSortName && col.sort !== false) {
+      if (!colNameBinded && col.field !== columnToSortName && col.sort !== false) {
         col.sort = '';
       }
 
@@ -240,7 +243,7 @@ export class FiTableComponent implements OnInit {
     }
 
     if (columnToSort.sort !== '' && columnToSort.sort !== false) {
-      columnName = columnToSort.name;
+      columnName = columnToSort.field;
       sort = columnToSort.sort;
     }
 
@@ -281,7 +284,7 @@ export class FiTableComponent implements OnInit {
     this.columns.forEach((column: any) => {
       if (column.filtering) {
         filteredData = filteredData.filter((item: any) => {
-          return item[column.name].toLocaleLowerCase().match(column.filtering.filterString.toLocaleLowerCase());
+          return item[column.field].toLocaleLowerCase().match(column.filtering.filterString.toLocaleLowerCase());
         });
       }
     });
@@ -303,7 +306,9 @@ export class FiTableComponent implements OnInit {
         //console.log('303 ngtablecomp');
         //console.log(item[column.name].toString().toLocaleLowerCase());
         //console.log(this.config.filtering.filterString.toLocaleLowerCase());
-        if (item[column.name].toString().toLocaleLowerCase().match(this.config.filtering.filterString.toLocaleLowerCase())) {
+        item[column.field] = '' + item[column.field];  // ??? no errors from number types
+
+        if (item[column.field].toString().toLocaleLowerCase().match(this.config.filtering.filterString.toLocaleLowerCase())) {
           flag = true;
         }
       });
@@ -318,11 +323,23 @@ export class FiTableComponent implements OnInit {
 
   public getData(row: any, column: FiTableCol): string {
 
-    const propertyName: string = column.name;
-    let cellvalue = propertyName.split('.').reduce((prev: any, curr: string) => prev[curr], row);
+    const propertyName: string = column.field;
+    // if dot seperator is used in a field name
+    //let cellvalue = propertyName.split('.').reduce((prev: any, curr: string) => prev[curr], row);
+    let cellvalue = row[propertyName];
 
     if (column.colType === FiColType.double && cellvalue !== undefined) {
-      cellvalue = cellvalue.toFixed(2);
+
+      //console.log('type of',typeof(cellvalue));
+
+      if(typeof(cellvalue)==='number') {
+        cellvalue = cellvalue.toFixed(2);
+      }
+
+      if(typeof(cellvalue)==='string') {
+        cellvalue = parseFloat(cellvalue).toFixed(2);
+      }
+
     }
 
     if (column.colType === FiColType.boolean) {
@@ -343,5 +360,16 @@ export class FiTableComponent implements OnInit {
     this.currentItem = item;
   }
 
+  pageChanged(config: FiTableConfig, $event: number) {
+    //console.log('config', config);
+    //console.log('$event', $event);
+  }
 
+  editorRenderer(column: FiTableCol, row: any, cellValue:any, fiComp:any) {
+
+    if(column.editorRenderer){
+      column.editorRenderer(row,cellValue,fiComp);
+    }
+
+  }
 }
