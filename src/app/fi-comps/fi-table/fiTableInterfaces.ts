@@ -1,11 +1,55 @@
 import {FiEditorType, FiColType} from './FiTableEnums';
 
+export interface FiTableConfig {
+
+    /**
+     *
+     */
+    paging?: boolean;
+    pageSize?:number;
+
+    /**
+     * Type: Any = Boolean or String
+     *
+     * if defined , sorting will be done
+     * Sort ype is identified as asc,desc,...
+     *
+     * Sorting yapılıp yapılmayacağına veya
+     * Sorting tipini (asc veya desc) belirtir
+     */
+    sorting?: any;
+
+    /**
+     *
+     */
+    //filtering?: FiFilter;
+
+    /**
+     * Table alacağı stil sınıfları
+     * Tek String veya String array oluyor
+     */
+    className?: any;
+
+    /**
+     * FIXME zorunlu olması lazım
+     * Tablonun sütunları
+     */
+    columns?: FiTableCol[];
+    rows?: any[];
+    filterAll?: FiFilter;
+    filterAuto?:boolean;
+
+
+}
+
 export interface FiTableCol {
 
     title: string;
     field: string;
-    filtering?: any;
+    filtering?: FiFilter;
+    autoFilter?:boolean;
     sort?: any;
+    sortable?:boolean;
     className?: any;
     colType?: FiColType;
     colClassName?: string;
@@ -20,6 +64,7 @@ export interface FiTableCol {
     summaryFunc?: any;
     fiEditable?:boolean;
     fiHidden?:boolean;
+    filterAction?: (ficolumn:FiTableCol , fiComp: any)=>void;
     /* In excel,or print it should be highlighted with yellow or soft grey*/
     isHighlighted?:boolean;
 
@@ -68,36 +113,9 @@ export interface FiFilter {
 
     filterString?: string;
     placeholder?: string;
+    columnName?:string;
+    filterValue?:string;
 
 }
 
-export interface FiTableConfig {
 
-    /**
-     * 
-     */
-    paging?: boolean,
-    
-    /**
-     * Type: Any = Boolean or String
-     *
-     * if defined , sorting will be done
-     * Sort ype is identified as asc,desc,...
-     *
-     * Sorting yapılıp yapılmayacağına veya
-     * Sorting tipini (asc veya desc) belirtir
-     */
-    sorting?: any,
-    
-    /**
-     * 
-     */
-    filtering?: FiFilter;
-    
-    /**
-     * Table alacağı stil sınıfları
-     * Tek String veya String array oluyor
-     */
-    className?: any;
-
-}

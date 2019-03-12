@@ -1,3 +1,4 @@
+<!--<form #tableForm="ngForm">-->
 <table class="table fiTable" ngClass="{{config.className || ''}}" style="width: 100%;">
     <!-- role="grid", class dan dataTable çıkarıldı -->
     <thead>
@@ -11,37 +12,67 @@
                [ngClass]="{'fa-chevron-down': column.sort === 'desc', 'fa-chevron-up': column.sort === 'asc'}"></i>
         </th>
     </tr>
-    </thead>
-    <tbody>
+
     <tr *ngIf="showFilterRow">
         <td *ngFor="let column of columns">
-            <input *ngIf="column.filtering" placeholder="{{column.filtering.placeholder}}"
+            <input #filterComp *ngIf="column.filtering || config.filterAuto"
+                   placeholder="{{column.filtering?.placeholder}}"
                    [ngTableFiltering]="column.filtering"
-                   class="form-control" style="width: auto;" (tableChanged)="onFilterSortTable()"/>
+                   class="form-control" style="width: auto;" (tableChanged)="filterAndSortTable()"
+                   (keyup.enter)="onFilterUserAction(column,filterComp)"
+            />
         </td>
     </tr>
-    <tr *ngFor="let row of rowsFiltered | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize"
-        [class.active]="currentItem===row" (click)="rowClick($event,row)">
-        <td (click)="cellClick(row, column.field)" *ngFor="let column of columns"
-            ngClass="{{column.colClassName || ''}}">
+    </thead>
 
+    <tbody>
+
+    <tr #fiTableTr *ngFor="let row of rowsFiltered | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize"
+        [class.active]="currentItem===row" (click)="rowClick($event,row)">
+        {{styleTableRow(fiTableTr,row)}}
+        <td #fiTableTd (click)="cellClick(row, column.field)" *ngFor="let column of columns"
+            ngClass="{{column.colClassName || ''}}">
+            {{styleTableCell(fiTableTd,column)}}
             <!--{{column.editorType}}<br>-->
 
             <ng-template [ngIf]="!column.editorType">
-                <span *ngIf="column.colType!=ozcoltype.boolean">
-                <span [innerHtml]="sanitize(getData(row, column))"></span>
-                </span>
 
-                <span *ngIf="column.colType==ozcoltype.boolean">
+                <ng-template [ngIf]="column.colType===fiColtype.double">
+                    <span [innerHtml]="sanitize(getData(row, column))"></span>
+                </ng-template>
+
+                <ng-template [ngIf]="column.colType===fiColtype.integer">
+                    <span [innerHtml]="sanitize(getData(row, column))"></span>
+                </ng-template>
+
+                <ng-template [ngIf]="column.colType===fiColtype.date">
+                    {{ getData(row,column) | date : dateFormat }}
+                </ng-template>
+
+                <ng-template [ngIf]="column.colType===fiColtype.string">
+                    <span [innerHtml]="sanitize(getData(row, column))"></span>
+                </ng-template>
+
+                <ng-template [ngIf]="column.colType===fiColtype.boolean">
+                    <span [innerHtml]="sanitize(getData(row, column))"></span>
+                </ng-template>
+
+                <ng-template [ngIf]="column.colType===undefined">
+                    <span [innerHtml]="sanitize(getData(row, column))"></span>
+                </ng-template>
+
+                <!--<span *ngIf="column.colType==ozcoltype.boolean">
                 <input type="checkbox" [value]="row[column.field]">
-                </span>
+                </span>-->
             </ng-template>
 
             <ng-template [ngIf]="column.editorType===fiEditorType.Button">
-                <button class="btn" #fiButton (click)="column.editorAction(row,null,column,fiButton)" >{{column.editorHeader}}{{editorRenderer(column,row,null,fiButton)}}</button>
+                <button class="btn" #fiButton
+                        (click)="column.editorAction(row,null,column,fiButton)">{{column.editorHeader}}{{editorUserRenderer(column, row, null, fiButton)}}</button>
             </ng-template>
 
         </td>
+
     </tr>
 
     </tbody>
@@ -53,3 +84,7 @@
             (pageChange)="pageChanged(config,$event)">
     </ngb-pagination>
 </table>
+<!--[(ngModel)]="column.filtering.filterValue"
+[ngModelOptions]="{standalone: true}"
+-->
+<!--</form>-->

@@ -1,8 +1,9 @@
 export enum FiColType {
-    double,
-    string,
-    integer,
-    boolean
+    double=0,
+    string=1,
+    integer=2,
+    boolean=3,
+    date=4
 }
 
 export class FiEditorType  {

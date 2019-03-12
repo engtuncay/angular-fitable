@@ -1,16 +1,17 @@
 <div class="row">
   <div class="col-md-4">
-    <input *ngIf="config.filtering" placeholder="Filter all columns"
-           [ngTableFiltering]="config.filtering"
+    <input *ngIf="tblTest.filterAll" placeholder="Filter all columns"
+           [ngTableFiltering]="tblTest.filterAll"
            class="form-control"
            (tableChanged)="onChangeTable()"/>
   </div>
 </div>
 <br>
 <!-- (tableChanged)="onChangeTable(config)" çıkartıldı -->
-<fi-table [config]="config"
-          (cellClicked)="onCellClick($event)"
-          [rows]="rows" [columns]="columns">
+<fi-table [config]="tblTest"
+          [rows]="tblTest.rows"
+          [columns]="tblTest.columns"
+          (cellClicked)="onCellClick($event)">
 </fi-table>
 
 <!-- config de columns tanımlıyor-->

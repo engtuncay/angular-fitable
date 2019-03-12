@@ -1,4 +1,5 @@
 import { Directive, EventEmitter, ElementRef, Renderer, HostListener, Input, Output } from '@angular/core';
+import {FiFilter} from './fiTableInterfaces';
 
 // import {setProperty} from 'angular2/ts/src/core/forms/directives/shared';
 function setProperty(renderer:Renderer, elementRef:ElementRef, propName:string, propValue:any):void {
@@ -7,7 +8,7 @@ function setProperty(renderer:Renderer, elementRef:ElementRef, propName:string, 
 
 @Directive({selector: '[ngTableFiltering]'})
 export class FiTableFilteringDirective {
-  @Input() public ngTableFiltering:any = {
+  @Input() public ngTableFiltering:FiFilter = {
     filterString: '',
     columnName: 'name'
   };
@@ -27,8 +28,9 @@ export class FiTableFilteringDirective {
   private renderer:Renderer;
 
   @HostListener('input', ['$event.target.value'])
-  public onChangeFilter(event:any):void {
-    this.ngTableFiltering.filterString = event;
+  public onChangeFilter(inputValue:any):void {
+    //console.log('on Change Filter çalışti :', this.ngTableFiltering );
+    this.ngTableFiltering.filterString = inputValue;
     this.tableChanged.emit({filtering: this.ngTableFiltering});
   }
 
