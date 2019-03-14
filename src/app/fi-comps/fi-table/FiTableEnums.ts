@@ -8,5 +8,7 @@ export enum FiColType {
 
 export class FiEditorType  {
     static Button = 'Button';
-    static Checkbox = 'Checkbox';
+    static CheckBox = 'Checkbox';
+    static TextBox = 'TextBox';
 }
+

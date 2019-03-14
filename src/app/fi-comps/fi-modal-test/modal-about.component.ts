@@ -1,20 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 
 @Component({
   selector: 'app-modal-about',
-  templateUrl: './modal-about.component.html',
-  styleUrls: ['./modal-about.component.css']
+  template: `
+    <fimodal [title]="title">
+      <app-about #refModal></app-about>
+    </fimodal>`,
 })
 export class ModalAboutComponent implements OnInit {
 
   title = '';
-  fiModal;
+  @ViewChild('refModal') refModal;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }
-
 
 
 }

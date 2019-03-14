@@ -1,0 +1,38 @@
+<form role="form">
+  <div class="form-content">
+
+    <!--    <ng-template [ngIf]="fiForm && fiForm.columns" >-->
+
+    <div class="form-group" *ngFor="let column of fiForm.columns">
+
+      {{column.field}} :&nbsp;
+      <ng-template [ngIf]="column.editorType === fiEditorType.TextBox">
+        <input type="text" [(ngModel)]="column.editorValue" [ngModelOptions]="{standalone: true}"
+               class="form-control input-underline input-lg" placeholder="{{column.title}}">
+      </ng-template>
+
+
+      <ng-template [ngIf]="!column.editorType">
+        <input type="text" [(ngModel)]="column.editorValue" [ngModelOptions]="{standalone: true}"
+               class="form-control input-underline input-lg" placeholder="{{column.title}}">
+      </ng-template>
+
+
+      <!--
+            name="{{column.field}}
+            <ng-select name="txButceKod" [items]="listButceKod" bindLabel="TxKod" bindValue="TxKod"
+                       placeholder="Bütçe Kodu"
+                       [(ngModel)]="newButceKural.TxButceKod" (blur)="butceKuralDegisti($event)"></ng-select>
+
+             <div class="form-group">
+              <input type="text" name="Aciklama" [(ngModel)]="newButceKural.TxAdi"
+                 class="form-control input-underline input-lg"
+                 id="" placeholder="Açıklama">
+             </div>
+      -->
+
+
+    </div>
+
+  </div>
+</form>

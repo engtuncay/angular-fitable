@@ -10,7 +10,7 @@ import {NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 })
 export class FiModalComponent implements OnInit {
 
-  @Input() title = `Information`;
+  @Input() title = ``;
   //@Input() fiModal = {};
   @ViewChild('modalContent') content
 

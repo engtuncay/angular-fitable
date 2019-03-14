@@ -1,0 +1,11 @@
+<button class="btn btn-lg btn-outline-primary" (click)="openModalTemplate(content)">Template Modal</button>
+
+<button class="btn btn-lg btn-outline-primary" (click)="openModalDynamic()">Dynamic Modal</button>
+
+<ng-template #content let-modal>
+  <fimodal-inner [title]="'App About Dahili'" [fiModal]="modal">
+    <app-about></app-about>
+  </fimodal-inner>
+  <!-- <br><button type="button" class="close" aria-label="Close" (click)="c('Closs click')">Close</button> -->
+</ng-template>
+

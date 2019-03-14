@@ -1,9 +1,10 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 import {FiColType, FiEditorType} from './FiTableEnums';
-import {FiTableCol, FiTableConfig} from './fiTableInterfaces';
+import {FiTableConfig} from './fi-table-config';
 import {FiFilterBase} from './fiFilterBase';
 import {DatePipe} from '@angular/common';
+import {FiTableCol} from './fi-table-col';
 
 
 @Component({
@@ -387,6 +388,10 @@ export class FiTableComponent implements OnInit {
         //let cellvalue = propertyName.split('.').reduce((prev: any, curr: string) => prev[curr], row);
 
         let cellvalue = row[propertyName];
+
+        if(cellvalue === undefined){
+          return 'null';
+        }
 
         if (column.colType === FiColType.double) {
 

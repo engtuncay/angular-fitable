@@ -10,7 +10,7 @@
         <!-- ngtablesorting directive -->
         <th #fiTableHeader *ngFor="let column of columns" [fiTableSorting]="config" [column]="column"
             (sortChanged)="onSortTable($event)"
-            ngClass="{{column.className || ''}}" >
+            ngClass="{{column.className || ''}}">
             {{styleFiTableHeader(fiTableHeader,column)}}
             {{column.title}}
             <i *ngIf="config && column.sort" class="pull-right fa"

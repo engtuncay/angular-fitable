@@ -1,5 +1,6 @@
-import { Directive, EventEmitter, HostListener, Input, Output } from '@angular/core';
-import { FiTableCol, FiTableConfig } from './fiTableInterfaces';
+import {Directive, EventEmitter, HostListener, Input, Output} from '@angular/core';
+import {FiTableConfig} from './fi-table-config';
+import {FiTableCol} from './fi-table-col';
 
 @Directive({selector: '[fiTableSorting]'})
 export class FiTableSortingDirective {

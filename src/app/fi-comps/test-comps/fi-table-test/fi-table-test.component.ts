@@ -1,14 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import {TableData, TableData2} from '../fi-table/table-data';
-import {FiTableCol, FiTableConfig} from '../fi-table/fiTableInterfaces';
-import {FiColType, FiEditorType} from '../fi-table/FiTableEnums';
+import {TableData, TableData2} from '../../fi-table/table-data';
+import {FiTableConfig} from '../../fi-table/fi-table-config';
+import {FiColType, FiEditorType} from '../../fi-table/FiTableEnums';
+import {FiTableCol} from '../../fi-table/fi-table-col';
 
 @Component({
-    selector: 'app-test-comp',
-    templateUrl: './test-comp.component.html',
-    styleUrls: ['./test-comp.component.scss']
+    selector: 'fi-table-test-comp',
+    templateUrl: './fi-table-test.component.html',
+    styleUrls: ['./fi-table-test.component.scss']
 })
-export class TestCompComponent implements OnInit {
+export class FiTableTestComponent implements OnInit {
 
     // , sort: 'asc' tanımlarsa açılışta sıralasın
     public columns: FiTableCol[] = [
