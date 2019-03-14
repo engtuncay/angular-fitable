@@ -1,12 +1,17 @@
 <!--<form #tableForm="ngForm">-->
-<table class="table fiTable" ngClass="{{config.className || ''}}" style="width: 100%;">
+<table class="table-responsive-sm fiTable" ngClass="{{config.className || ''}}" style="width: 100%; table-layout: fixed;">
     <!-- role="grid", class dan dataTable çıkarıldı -->
+    <colgroup>
+        <col *ngFor="let column of columns" [ngStyle]="{ 'width' : column.prefSize, 'min-width': column.minSize }">
+    </colgroup>
+
     <thead>
     <tr role="row">
         <!-- ngtablesorting directive -->
-        <th *ngFor="let column of columns" [fiTableSorting]="config" [column]="column"
+        <th #fiTableHeader *ngFor="let column of columns" [fiTableSorting]="config" [column]="column"
             (sortChanged)="onSortTable($event)"
-            ngClass="{{column.className || ''}}">
+            ngClass="{{column.className || ''}}" >
+            {{styleFiTableHeader(fiTableHeader,column)}}
             {{column.title}}
             <i *ngIf="config && column.sort" class="pull-right fa"
                [ngClass]="{'fa-chevron-down': column.sort === 'desc', 'fa-chevron-up': column.sort === 'asc'}"></i>

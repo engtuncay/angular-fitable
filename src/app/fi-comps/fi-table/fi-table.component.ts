@@ -451,4 +451,12 @@ export class FiTableComponent implements OnInit {
     styleTableRow(fiTableTr: HTMLTableRowElement, row: any) {
 
     }
+
+    styleFiTableHeader(fiTableHeader: HTMLTableHeaderCellElement, column: FiTableCol) {
+
+        if(column.prefSize) {
+            //fiTableHeader.style.width = String(column.prefSize);
+        }
+
+    }
 }

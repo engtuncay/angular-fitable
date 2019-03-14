@@ -19,11 +19,11 @@ export class TestCompComponent implements OnInit {
                 //console.log('FiComp:', fiComp);
                 this.tblTest.rows = TableData2;
                 //console.log('testComp:config rows set edildi');
-            }
+            },prefSize:'150px'
         },
-        {title: 'Position', field: 'position', sort: false, filtering: {filterString: '', placeholder: 'Filter by position'}},
+        {title: 'Position', field: 'position', sort: false, filtering: {filterString: '', placeholder: 'Position'},prefSize:'50px'} ,
         {title: 'Office', className: ['office-header', 'text-success'], field: 'office'},
-        {title: 'Extn.', field: 'ext', sort: '', filtering: {filterString: '', placeholder: 'Filter by extn.'}},
+        {title: 'Extn.', field: 'ext', sort: '', filtering: {filterString: '', placeholder: 'Filter by extn.'},prefSize:'50px'},
         {title: 'Start date', className: 'text-warning', field: 'startDate',colType:FiColType.date},
         {title: 'Salary ($)', field: 'salary',colType:FiColType.double},
         {
@@ -47,8 +47,8 @@ export class TestCompComponent implements OnInit {
         columns: this.columns,
         className: ['table-bordered'],
         filterAuto: true,
-        paging: false,
         sorting: {columns: this.columns},
+        paging: false,
         pageSize:6
     };
 

@@ -58,8 +58,9 @@ export interface FiTableCol {
     editorHeader?: string;
     editorRenderer?: (row: any, cellValue: any, fiComp: any)=>void;
     editorAction?: (row: any,cellValue: any, ficolumn:FiTableCol , fiComp: any)=>void;
-    prefSize?:number;
+    prefSize?:string;
     printSize?:number;
+    minSize?:string;
     summaryType?:string;  /* FiEditorType gibi yapılabilir*/
     summaryFunc?: any;
     fiEditable?:boolean;

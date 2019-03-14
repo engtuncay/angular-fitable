@@ -1,10 +1,14 @@
 
 
-.numbercol{
+/*.numbercol{
     text-align: right; 
     color: red;
-  }
+}*/
 
 tr.active {
   background-color: lightblue;
+}
+
+table td {
+    overflow: hidden;
 }
