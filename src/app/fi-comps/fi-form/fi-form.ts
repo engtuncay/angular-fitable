@@ -5,8 +5,6 @@ export class FiForm {
 
   columns?: FiTableCol[];
 
-
-
   convertEntity<T>():T {
 
     let entity = {} as T;

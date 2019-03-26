@@ -10,5 +10,8 @@ export class FiEditorType  {
     static Button = 'Button';
     static CheckBox = 'Checkbox';
     static TextBox = 'TextBox';
+    static NgSelect = 'NgSelect';
+  static NgbDatePicker = 'NgbDatePicker';
 }
+
 

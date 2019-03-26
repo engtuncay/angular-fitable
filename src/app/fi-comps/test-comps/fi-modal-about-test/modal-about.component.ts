@@ -3,9 +3,9 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 @Component({
   selector: 'app-modal-about',
   template: `
-    <fimodal [title]="title">
+    <fimodal-wrapper [title]="title">
       <app-about #refModal></app-about>
-    </fimodal>`,
+    </fimodal-wrapper>`,
 })
 export class ModalAboutComponent implements OnInit {
 

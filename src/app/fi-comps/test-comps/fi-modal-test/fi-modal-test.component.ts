@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {ModalAboutComponent} from '../../fi-modal-test/modal-about.component';
+import {ModalAboutComponent} from '../fi-modal-about-test/modal-about.component';
 import {FiBaseComp} from '../../fibasecomp/FiBaseComp';
-import {AboutComponent} from '../../fi-modal-test/about.component';
+import {AboutComponent} from '../fi-modal-about-test/about.component';
 
 @Component({
   selector: 'app-fimodal-test',
@@ -48,7 +48,7 @@ export class FiModalTestComponent extends FiBaseComp implements OnInit {
     console.log('open event');
     // const modalRef = this.modalService.open(ModalComponent);
     const modalRef = this.modalService.open(ModalAboutComponent);
-    modalRef.componentInstance.title = 'App Modal Title';
+    modalRef.componentInstance.header = 'App Modal Title';
   }
 
   //ariaLabelledBy: 'modal-basic-title'
@@ -62,11 +62,11 @@ export class FiModalTestComponent extends FiBaseComp implements OnInit {
 
   openModalDynamic() {
     const modalRef = this.modalService.open(ModalAboutComponent);
-    modalRef.componentInstance.title = 'App Modal Title';
+    modalRef.componentInstance.header = 'App Modal Title';
     //modalRef.componentInstance.fiModal = modalRef;
 
     // iç compenent'e ulaşmak için
-    let modalAbout = modalRef.componentInstance.refModal as AboutComponent;
+    let modalAbout = modalRef.componentInstance.refComp as AboutComponent;
 
   }
 

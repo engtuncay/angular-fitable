@@ -1,4 +1,4 @@
-import {FiFilter} from './fiTableInterfaces';
+import {FiFilter} from './fi-filter';
 
 export class FiFilterBase implements FiFilter {
 

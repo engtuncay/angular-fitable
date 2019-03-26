@@ -3,20 +3,35 @@
 
     <!--    <ng-template [ngIf]="fiForm && fiForm.columns" >-->
 
+    <!--<input myNumberOnly name="min" placeholder="Enter Value" [(ngModel)]="editorValue">-->
+
     <div class="form-group" *ngFor="let column of fiForm.columns">
 
-      {{column.field}} :&nbsp;
+      {{column.header}} :
       <ng-template [ngIf]="column.editorType === fiEditorType.TextBox">
         <input type="text" [(ngModel)]="column.editorValue" [ngModelOptions]="{standalone: true}"
-               class="form-control input-underline input-lg" placeholder="{{column.title}}">
+               class="form-control input-underline input-lg" placeholder="{{column.header}}"
+               [disabled]="column.isDisabled">
+      </ng-template>
+
+
+      <ng-template [ngIf]="column.editorType === fiEditorType.NgSelect">
+        <ng-select [items]="column.editorItems" [(ngModel)]="column.editorValue"
+                   bindLabel="label" bindValue="value"
+                   name="NgSelect" placeholder="{{column.header}}">
+        </ng-select>
       </ng-template>
 
 
       <ng-template [ngIf]="!column.editorType">
         <input type="text" [(ngModel)]="column.editorValue" [ngModelOptions]="{standalone: true}"
-               class="form-control input-underline input-lg" placeholder="{{column.title}}">
+               class="form-control input-underline input-lg" placeholder="{{column.header}}" [disabled]="column.isDisabled">
       </ng-template>
 
+      <ng-template [ngIf]="column.editorType === fiEditorType.NgbDatePicker">
+        <!-- in the popup -->
+        <ngbd-datepicker-popup></ngbd-datepicker-popup>
+      </ng-template>
 
       <!--
             name="{{column.field}}

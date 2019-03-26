@@ -4,11 +4,11 @@ import {NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
-  selector: 'fimodal',
-  templateUrl: './fimodal.component.html',
-  styleUrls: ['./fimodal.component.css']
+  selector: 'fimodal-wrapper',
+  templateUrl: './fimodal-wrapper.component.html',
+  styleUrls: ['./fimodal-wrapper.component.css']
 })
-export class FiModalComponent implements OnInit {
+export class FimodalWrapperComponent implements OnInit {
 
   @Input() title = ``;
   //@Input() fiModal = {};

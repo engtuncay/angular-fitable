@@ -14,7 +14,7 @@ export class FiTableTestComponent implements OnInit {
     // , sort: 'asc' tanımlarsa açılışta sıralasın
     public columns: FiTableCol[] = [
         {
-            title: 'Name', field: 'name', filtering: {filterString: '', placeholder: 'Filter by name'},
+            header: 'Name', field: 'name', filtering: {filterString: '', placeholder: 'Filter by name'},
             filterAction: (ficolumn, fiComp) => {
                 //console.log('fiCol:', ficolumn);
                 //console.log('FiComp:', fiComp);
@@ -22,13 +22,13 @@ export class FiTableTestComponent implements OnInit {
                 //console.log('testComp:config rows set edildi');
             },prefSize:'150px'
         },
-        {title: 'Position', field: 'position', sort: false, filtering: {filterString: '', placeholder: 'Position'},prefSize:'50px'} ,
-        {title: 'Office', className: ['office-header', 'text-success'], field: 'office'},
-        {title: 'Extn.', field: 'ext', sort: '', filtering: {filterString: '', placeholder: 'Filter by extn.'},prefSize:'50px'},
-        {title: 'Start date', className: 'text-warning', field: 'startDate',colType:FiColType.date},
-        {title: 'Salary ($)', field: 'salary',colType:FiColType.double},
+        {header: 'Position', field: 'position', sort: false, filtering: {filterString: '', placeholder: 'Position'},prefSize:'50px'} ,
+        {header: 'Office', className: ['office-header', 'text-success'], field: 'office'},
+        {header: 'Extn.', field: 'ext', sort: '', filtering: {filterString: '', placeholder: 'Filter by extn.'},prefSize:'50px'},
+        {header: 'Start date', className: 'text-warning', field: 'startDate',colType:FiColType.date},
+        {header: 'Salary ($)', field: 'salary',colType:FiColType.double},
         {
-            title: 'Confirm', field: 'confirm', editorType: FiEditorType.Button,
+            header: 'Confirm', field: 'confirm', editorType: FiEditorType.Button,
             editorAction: (row, cellValue, fiColumn, fiComp: HTMLButtonElement) => {
                 console.log('Confirmed', row, cellValue, fiComp);
                 fiComp.textContent = 'Ok';
@@ -49,7 +49,7 @@ export class FiTableTestComponent implements OnInit {
         className: ['table-bordered'],
         filterAuto: true,
         sorting: {columns: this.columns},
-        paging: false,
+        pagingDisable: false,
         pageSize:6
     };
 

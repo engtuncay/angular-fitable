@@ -1,9 +1,12 @@
 import {FiColType, FiEditorType} from './FiTableEnums';
-import {FiFilter} from './fiTableInterfaces';
+import {FiFilter} from './fi-filter';
+import {ComboItem} from '../utils/data/combo-item';
+import {FiField} from '../utils/data/fi-field';
+import {IFiField} from '../utils/data/i-fi-field';
 
-export class FiTableCol {
+export class FiTableCol implements IFiField {
 
-  title: string;
+  header: string;
   field: string;
   filtering?: FiFilter;
   autoFilter?: boolean;
@@ -21,6 +24,7 @@ export class FiTableCol {
    * Form comp.nin değerini tutar
    */
   editorValue?:any;
+  editorItems?:ComboItem[];
   prefSize?: string;
   printSize?: number;
   minSize?: string;
@@ -31,6 +35,8 @@ export class FiTableCol {
   filterAction?: (ficolumn: FiTableCol, fiComp: any) => void;
   /* In excel,or print it should be highlighted with yellow or soft grey*/
   isHighlighted?: boolean;
+  // Form elemanları için
+  isDisabled?:boolean;
 
   public buildPrefSize?(prefSizeTx: string): FiTableCol {
     this.prefSize = prefSizeTx;
@@ -76,4 +82,20 @@ export class FiTableCol {
   BiConsumer<Object, Node> cellFactoryNodeBiAction;
   BiConsumer<Object, Node> cellFactoryNodeRendererFn;
   */
+
+  buildEditorType?(editorType: string) {
+    this.editorType = editorType;
+    return this;
+  }
+
+  buildDisabled?(isDisabled: boolean) {
+    this.isDisabled = isDisabled;
+    return this;
+  }
+
+  buildColType?(prmColType: FiColType) {
+    this.colType = prmColType
+    return this;
+  }
+
 }

@@ -1,14 +1,17 @@
 import {FiTableCol} from './fi-table-col';
-import {FiFilter} from './fiTableInterfaces';
+import {FiFilter} from './fi-filter';
 
 export class FiTableConfig {
 
   /**
-   *
+   * Paging properties
    */
-  paging?: boolean;
+  pagingDisable?: boolean;
   pageSize?: number;
+  pagingVirtual?:boolean;
+  dataLength?: number;
 
+  tableHeight?:string;
   /**
    * Type: Any = Boolean or String
    *
@@ -38,6 +41,9 @@ export class FiTableConfig {
   columns?: FiTableCol[];
   rows?: any[];
   filterAll?: FiFilter;
+  /**
+   *  Otomatik tüm sütunlar filtrelerini gösterir
+   */
   filterAuto?: boolean;
 
 

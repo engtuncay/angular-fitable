@@ -1,11 +1,11 @@
-import {OzField} from './OzField';
+import {FiField} from './fi-field';
 import {FiTableCol} from '../../fi-table/fi-table-col';
 
-export function convertFiTableCol(fieldobj: OzField): FiTableCol {
+export function convertFiTableCol(fieldobj: FiField): FiTableCol {
 
     let tableCol = new FiTableCol();
     tableCol.field = fieldobj.field;
-    tableCol.title = fieldobj.header;
+    tableCol.header = fieldobj.header;
     return tableCol;
 
 }

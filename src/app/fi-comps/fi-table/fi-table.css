@@ -10,5 +10,21 @@ tr.active {
 }
 
 table td {
-    overflow: hidden;
+  /*overflow: hidden;*/
+}
+
+.fiTable {
+
+}
+
+
+.highlightRow {
+  background-color: #fcf8e3;
+  /*border-color: #00b3ee;*/
+}
+
+.borderMedium {
+  /*border-width:1px;  !*solid black;*!*/
+  border-bottom-width: 2px;
+  border-color: #dc3545;
 }

@@ -1,14 +1,13 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-
 import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
-  selector: 'fimodal-inner',
-  templateUrl: './fimodalinner.component.html',
-  styleUrls: ['./fimodal.component.css'],
+  selector: 'fimodal-template',
+  templateUrl: './fimodal-template.component.html',
+  styleUrls: ['./fimodal-wrapper.component.css'],
 })
-export class FimodalInnerComponent implements OnInit {
+export class FimodalTemplateComponent implements OnInit {
 
   @Input() title = `Information`;
   @Input() fiModal: NgbActiveModal;
