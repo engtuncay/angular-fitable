@@ -1,53 +1,62 @@
-<form role="form">
-  <div class="form-content">
+<input type="text" placeholder="Adı" />
 
-    <!--    <ng-template [ngIf]="fiForm && fiForm.columns" >-->
+<!--<form role="form">-->
+<!--  <div class="form-content">-->
 
-    <!--<input myNumberOnly name="min" placeholder="Enter Value" [(ngModel)]="editorValue">-->
+<!--    &lt;!&ndash;    <ng-template [ngIf]="fiForm && fiForm.columns" >&ndash;&gt;-->
 
-    <div class="form-group" *ngFor="let column of fiForm.columns">
+<!--    &lt;!&ndash;<input myNumberOnly name="min" placeholder="Enter Value" [(ngModel)]="editorValue">&ndash;&gt;-->
 
-      {{column.header}} :
-      <ng-template [ngIf]="column.editorType === fiEditorType.TextBox">
-        <input type="text" [(ngModel)]="column.editorValue" [ngModelOptions]="{standalone: true}"
-               class="form-control input-underline input-lg" placeholder="{{column.header}}"
-               [disabled]="column.isDisabled">
-      </ng-template>
+<!--    <div class="form-group" *ngFor="let column of fiForm.columns">-->
 
+<!--      {{column.header}} :-->
+<!--      <ng-template [ngIf]="column.editorType === fiEditorType.TextBox && column.colType === fiColType.double">-->
 
-      <ng-template [ngIf]="column.editorType === fiEditorType.NgSelect">
-        <ng-select [items]="column.editorItems" [(ngModel)]="column.editorValue"
-                   bindLabel="label" bindValue="value"
-                   name="NgSelect" placeholder="{{column.header}}">
-        </ng-select>
-      </ng-template>
+<!--        <input type="text" [(ngModel)]="column.editorValue" [ngModelOptions]="{standalone: true}" fiNumberOnly-->
+<!--               class="form-control input-underline input-lg"-->
+<!--               [disabled]="column.isDisabled" style="text-align: right">-->
+<!--      </ng-template>-->
 
 
-      <ng-template [ngIf]="!column.editorType">
-        <input type="text" [(ngModel)]="column.editorValue" [ngModelOptions]="{standalone: true}"
-               class="form-control input-underline input-lg" placeholder="{{column.header}}" [disabled]="column.isDisabled">
-      </ng-template>
+<!--      <ng-template [ngIf]="column.editorType === fiEditorType.TextBox && column.colType===undefined">-->
+<!--        <input type="text" [(ngModel)]="column.editorValue" [ngModelOptions]="{standalone: true}"-->
+<!--               class="form-control input-underline input-lg" placeholder="{{column.header}}"-->
+<!--               [disabled]="column.isDisabled">-->
+<!--      </ng-template>-->
 
-      <ng-template [ngIf]="column.editorType === fiEditorType.NgbDatePicker">
-        <!-- in the popup -->
-        <ngbd-datepicker-popup></ngbd-datepicker-popup>
-      </ng-template>
-
-      <!--
-            name="{{column.field}}
-            <ng-select name="txButceKod" [items]="listButceKod" bindLabel="TxKod" bindValue="TxKod"
-                       placeholder="Bütçe Kodu"
-                       [(ngModel)]="newButceKural.TxButceKod" (blur)="butceKuralDegisti($event)"></ng-select>
-
-             <div class="form-group">
-              <input type="text" name="Aciklama" [(ngModel)]="newButceKural.TxAdi"
-                 class="form-control input-underline input-lg"
-                 id="" placeholder="Açıklama">
-             </div>
-      -->
+<!--      <ng-template [ngIf]="column.editorType === fiEditorType.NgSelect">-->
+<!--        <ng-select [items]="column.editorItems" [(ngModel)]="column.editorValue"-->
+<!--                   bindLabel="label" bindValue="value"-->
+<!--                   name="NgSelect" placeholder="{{column.header}}">-->
+<!--        </ng-select>-->
+<!--      </ng-template>-->
 
 
-    </div>
+<!--      <ng-template [ngIf]="!column.editorType">-->
+<!--        <input type="text" [(ngModel)]="column.editorValue" [ngModelOptions]="{standalone: true}"-->
+<!--               class="form-control input-underline input-lg" placeholder="{{column.header}}" [disabled]="column.isDisabled">-->
+<!--      </ng-template>-->
 
-  </div>
-</form>
+<!--      <ng-template [ngIf]="column.editorType === fiEditorType.NgbDatePicker">-->
+<!--        &lt;!&ndash; in the popup &ndash;&gt;-->
+<!--        <ngbd-datepicker-popup [fiColumn]="column" ></ngbd-datepicker-popup>-->
+<!--      </ng-template>-->
+
+<!--      &lt;!&ndash;-->
+<!--            name="{{column.field}}-->
+<!--            <ng-select name="txButceKod" [items]="listButceKod" bindLabel="TxKod" bindValue="TxKod"-->
+<!--                       placeholder="Bütçe Kodu"-->
+<!--                       [(ngModel)]="newButceKural.TxButceKod" (blur)="butceKuralDegisti($event)"></ng-select>-->
+
+<!--             <div class="form-group">-->
+<!--              <input type="text" name="Aciklama" [(ngModel)]="newButceKural.TxAdi"-->
+<!--                 class="form-control input-underline input-lg"-->
+<!--                 id="" placeholder="Açıklama">-->
+<!--             </div>-->
+<!--      &ndash;&gt;-->
+
+
+<!--    </div>-->
+
+<!--  </div>-->
+<!--</form>-->

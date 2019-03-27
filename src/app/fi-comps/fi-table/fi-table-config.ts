@@ -1,5 +1,6 @@
 import {FiTableCol} from './fi-table-col';
 import {FiFilter} from './fi-filter';
+import {FiTableComponent} from './fi-table.component';
 
 export class FiTableConfig {
 
@@ -45,6 +46,7 @@ export class FiTableConfig {
    *  Otomatik tüm sütunlar filtrelerini gösterir
    */
   filterAuto?: boolean;
+  fiTableComp?:FiTableComponent;
 
 
 }

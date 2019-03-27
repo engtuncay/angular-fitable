@@ -22,7 +22,7 @@ export class FiForm {
       column.editorValue = entity[column.field];
     }
 
-    console.log('Columns After Bind', this.columns );
+    console.log('Columns After Bind (bind-entity-to-form)', this.columns );
 
 
   }

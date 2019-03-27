@@ -65,13 +65,19 @@ export class FiTableComponent implements OnInit {
 
 
   ngOnInit() {
+
+    console.log('ngOninit Fitable');
+
     //this.onChangeTable(this.config);
     //this.rowsFiltered = this.rows;
     this.innerWidth = window.innerWidth;
+    this.config.fiTableComp = this;
   }
 
   @Input()
   public set rows(rowsData: any[]) {
+
+    console.log('Set Rows On FiTable');
 
     if (!rowsData) {
       rowsData = [];
@@ -79,10 +85,8 @@ export class FiTableComponent implements OnInit {
 
     for (let index = 0; index < rowsData.length; index++) {
       const element = rowsData[index];
-      element.fiIndex = index + 1;
+      element.fiIndex = index;
     }
-
-    console.log('Rows Yeniden Set Edildi.');
 
     this._rows = rowsData;
     this.rowsFiltered = rowsData;
@@ -169,7 +173,7 @@ export class FiTableComponent implements OnInit {
     const sortColumns: any[] = [];
 
     this.columns.forEach((column: any) => {
-      if (column.sort) {
+      if (column.sortStatus) {
         sortColumns.push(column);
       }
     });
@@ -181,8 +185,8 @@ export class FiTableComponent implements OnInit {
   public onChangeTable(column: FiTableCol): void {
 
     this._columns.forEach((col: FiTableCol) => {
-      if (col.field !== column.field && col.sort !== false) {
-        col.sort = '';
+      if (col.field !== column.field && col.sortStatus !== false) {
+        col.sortStatus = '';
       }
     });
 
@@ -208,12 +212,12 @@ export class FiTableComponent implements OnInit {
       let colNameBinded = false;
 
       if (!colNameBinded && columnToSortName === '') {
-        col.sort = '';
+        col.sortStatus = '';
         colNameBinded = true;
       }
 
-      if (!colNameBinded && col.field !== columnToSortName && col.sort !== false) {
-        col.sort = '';
+      if (!colNameBinded && col.field !== columnToSortName && col.sortStatus !== false) {
+        col.sortStatus = '';
       }
 
     });
@@ -294,15 +298,15 @@ export class FiTableComponent implements OnInit {
     //   return data;
     // }
 
-    if (columnToSort.sort === '') {
+    if (columnToSort.sortStatus === '') {
       // console.log('fi Index set');
       columnName = 'fiIndex';
       sort = 'asc';
     }
 
-    if (columnToSort.sort !== '' && columnToSort.sort !== false) {
+    if (columnToSort.sortStatus !== '' && columnToSort.sortStatus !== false) {
       columnName = columnToSort.field;
-      sort = columnToSort.sort;
+      sort = columnToSort.sortStatus;
     }
 
     if (!columnName) {
@@ -498,4 +502,10 @@ export class FiTableComponent implements OnInit {
     return '70vh';
 
   }
+
+  addRowToTop(row:any){
+    this.rows.unshift(row);
+    this.rowsSliced.unshift(row);
+  }
+
 }

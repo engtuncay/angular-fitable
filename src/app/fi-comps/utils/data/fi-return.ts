@@ -7,5 +7,12 @@ export class FiReturn {
   lnRowsAffected: number;
   obResponse: any;    //System.Object
   lnIdAffected: number;
+
+  static factoryErrorShort(txErrorMsgShort: string) {
+    let fiReturn = new FiReturn();
+    fiReturn.txErrorMsgShort = txErrorMsgShort;
+    return fiReturn;
+  }
+
 }
 

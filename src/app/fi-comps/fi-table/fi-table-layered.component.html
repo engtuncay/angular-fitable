@@ -1,0 +1,166 @@
+<!--&lt;!&ndash;<form #tableForm="ngForm">&ndash;&gt;-->
+
+<!--<ng-template [ngIf]="innerWidth>=600">-->
+
+<!--  <div style="width:100%; overflow-y:scroll;overflow-x: hidden" [ngStyle]="{'height': getTableHeight()}">-->
+<!--    <table class="table-responsive-sm fiTable fixed_header" ngClass="{{config.className || ''}}"-->
+<!--           style="width: 100%; table-layout: fixed;">-->
+<!--      &lt;!&ndash; role="grid", class dan dataTable çıkarıldı &ndash;&gt;-->
+
+<!--      <colgroup>-->
+<!--        <col *ngFor="let column of columns" [ngStyle]="{ 'width' : column.prefSize, 'min-width': column.minSize }">-->
+<!--      </colgroup>-->
+
+<!--      <thead style="">-->
+
+<!--      <tr role="row">-->
+<!--        &lt;!&ndash; ngtablesorting directive &ndash;&gt;-->
+<!--        <th #fiTableHeader *ngFor="let column of columns" [fiTableSorting]="config" [column]="column"-->
+<!--            (sortChanged)="onSortTable($event)"-->
+<!--            ngClass="{{column.className || ''}}">-->
+<!--          {{styleFiTableHeader(fiTableHeader, column)}}-->
+<!--          {{column.header}}-->
+<!--          <i *ngIf="config && column.sort" class="pull-right fa"-->
+<!--             [ngClass]="{'fa-chevron-down': column.sort === 'desc', 'fa-chevron-up': column.sort === 'asc'}"></i>-->
+<!--        </th>-->
+<!--      </tr>-->
+
+<!--      <tr *ngIf="showFilterRow">-->
+<!--        <td *ngFor="let column of columns">-->
+<!--          <input #filterComp *ngIf="column.filtering || config.filterAuto"-->
+<!--                 placeholder="{{column.filtering?.placeholder}}"-->
+<!--                 [ngTableFiltering]="column.filtering"-->
+<!--                 class="form-control" style="width: auto;" (tableChanged)="filterAndSortTable(column)"-->
+<!--                 (keyup.enter)="onFilterUserAction(column,filterComp)"-->
+<!--          />-->
+<!--        </td>-->
+<!--      </tr>-->
+
+<!--      </thead>-->
+
+<!--      <tbody>-->
+
+<!--      <ng-template>-->
+<!--        &lt;!&ndash;slice pipe &ndash;&gt;-->
+<!--        &lt;!&ndash;| slice: (page-1) * pageSize : (page-1) * pageSize + pageSize &ndash;&gt;-->
+<!--      </ng-template>-->
+
+<!--      <tr #fiTableTr *ngFor="let row of rowsSliced"-->
+<!--          [class.active]="currentItem===row" (click)="rowClick($event,row)">-->
+<!--        {{styleTableRow(fiTableTr, row)}}-->
+<!--        <td #fiTableTd (click)="cellClick(row, column.field)" *ngFor="let column of columns"-->
+<!--            ngClass="{{column.colClassName || ''}}">-->
+<!--          {{styleTableCell(fiTableTd, column)}}-->
+<!--          &lt;!&ndash;{{column.editorType}}<br>&ndash;&gt;-->
+<!--          <fi-table-cell [column]="column" [row]="row"></fi-table-cell>-->
+<!--        </td>-->
+
+<!--      </tr>-->
+
+<!--      </tbody>-->
+
+<!--    </table>-->
+
+<!--  </div>-->
+<!--  <div class="mt-3">-->
+<!--    <ng-template [ngIf]="!config.pagingDisable">-->
+<!--      <ngb-pagination #ngbPagination-->
+<!--                      [(page)]="page"-->
+<!--                      [pageSize]="pageSize" [ellipses]="true"-->
+<!--                      [collectionSize]="getLength()"-->
+<!--                      (pageChange)="changePage(config,$event,ngbPagination)">-->
+
+<!--      </ngb-pagination>-->
+<!--    </ng-template>-->
+<!--  </div>-->
+<!--</ng-template>-->
+
+<!--<ng-template [ngIf]="innerWidth<600">-->
+
+<!--  <button class="btn btn-secondary" (click)="toggleFiltre()">Filtre</button>-->
+<!--  <div style="width:100%; height:70vh; overflow-y:scroll;overflow-x: hidden">-->
+<!--    <table class="table-responsive fiTable" ngClass="{{config.className || ''}}"-->
+<!--           style="width: 100%; table-layout: fixed;">-->
+<!--      &lt;!&ndash; role="grid", class dan dataTable çıkarıldı &ndash;&gt;-->
+
+<!--      <tbody>-->
+
+<!--      <tr [hidden]="filterStatus">-->
+
+<!--        <table class="table-bordered borderMedium" style="width: 100%; table-layout: fixed;">-->
+<!--          &lt;!&ndash; ngtablesorting directive &ndash;&gt;-->
+<!--          <tr *ngFor="let column of columns">-->
+
+<!--            <td #fiTableHeader [fiTableSorting]="config" [column]="column"-->
+<!--                (sortChanged)="onSortTable($event)"-->
+<!--                ngClass="{{column.className || ''}}">-->
+<!--              {{styleFiTableHeader(fiTableHeader, column)}}-->
+<!--              {{column.header}}-->
+<!--              <i *ngIf="config && column.sort" class="pull-right fa"-->
+<!--                 [ngClass]="{'fa-chevron-down': column.sort === 'desc', 'fa-chevron-up': column.sort === 'asc'}"></i>-->
+<!--            </td>-->
+
+
+<!--            <td>-->
+<!--              <ng-template [ngIf]="showFilterRow">-->
+
+<!--                <input #filterComp *ngIf="column.filtering || config.filterAuto"-->
+<!--                       placeholder="{{column.filtering?.placeholder}}"-->
+<!--                       [ngTableFiltering]="column.filtering"-->
+<!--                       class="form-control" style="width: auto;" (tableChanged)="filterAndSortTable()"-->
+<!--                       (keyup.enter)="onFilterUserAction(column,filterComp)"-->
+<!--                />-->
+
+<!--              </ng-template>-->
+<!--            </td>-->
+<!--          </tr>-->
+<!--        </table>-->
+
+<!--      </tr>-->
+
+<!--      <tr class="" #fiTableTr-->
+<!--          *ngFor="let row of rowsFiltered | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;index as rowIndex"-->
+<!--          [class.highlightRow]="rowIndex%2==0"-->
+<!--          [class.active]="currentItem===row" (click)="rowClick($event,row)">-->
+<!--        {{styleTableRow(fiTableTr, row)}}-->
+
+<!--        <table class="table-bordered borderMedium" style="width: 100%; table-layout: fixed;">-->
+<!--          &lt;!&ndash; ngtablesorting directive &ndash;&gt;-->
+<!--          <tr *ngFor="let column of columns">-->
+<!--            <td #fiTableHeader-->
+<!--                ngClass="{{column.className || ''}}">-->
+<!--              {{styleFiTableHeader(fiTableHeader, column)}}-->
+<!--              {{column.header}}-->
+<!--              <i *ngIf="config && column.sort" class="pull-right fa"-->
+<!--                 [ngClass]="{'fa-chevron-down': column.sort === 'desc', 'fa-chevron-up': column.sort === 'asc'}"></i>-->
+<!--            </td>-->
+
+<!--            <td #fiTableTd (click)="cellClick(row, column.field)"-->
+<!--                ngClass="{{column.colClassName || ''}}">-->
+<!--              {{styleTableCell(fiTableTd, column)}}-->
+<!--              &lt;!&ndash;{{column.editorType}}<br>&ndash;&gt;-->
+<!--              <fi-table-cell [column]="column" [row]="row"></fi-table-cell>-->
+<!--            </td>-->
+<!--          </tr>-->
+<!--        </table>-->
+
+<!--      </tr>-->
+
+<!--      </tbody>-->
+
+<!--    </table>-->
+
+<!--    <ng-template [ngIf]="!config.pagingDisable">-->
+<!--      <ngb-pagination #ngbPagination-->
+<!--                      [(page)]="page"-->
+<!--                      [pageSize]="pageSize"-->
+<!--                      [collectionSize]="getLength()"-->
+<!--                      (pageChange)="changePage(config,$event,ngbPagination)">-->
+<!--      </ngb-pagination>-->
+
+<!--    </ng-template>-->
+<!--  </div>-->
+
+<!--</ng-template>-->
+
+

@@ -22,9 +22,9 @@ export class FiTableTestComponent implements OnInit {
                 //console.log('testComp:config rows set edildi');
             },prefSize:'150px'
         },
-        {header: 'Position', field: 'position', sort: false, filtering: {filterString: '', placeholder: 'Position'},prefSize:'50px'} ,
+        {header: 'Position', field: 'position', sortStatus: false, filtering: {filterString: '', placeholder: 'Position'},prefSize:'50px'} ,
         {header: 'Office', className: ['office-header', 'text-success'], field: 'office'},
-        {header: 'Extn.', field: 'ext', sort: '', filtering: {filterString: '', placeholder: 'Filter by extn.'},prefSize:'50px'},
+        {header: 'Extn.', field: 'ext', sortStatus: '', filtering: {filterString: '', placeholder: 'Filter by extn.'},prefSize:'50px'},
         {header: 'Start date', className: 'text-warning', field: 'startDate',colType:FiColType.date},
         {header: 'Salary ($)', field: 'salary',colType:FiColType.double},
         {

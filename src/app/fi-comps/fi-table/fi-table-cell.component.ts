@@ -29,6 +29,11 @@ export class FiTableCellComponent {
   }
 
   getData(row: any, column: FiTableCol) {
+
+    if(column.field === undefined) {
+      return;
+    }
+
     const propertyName: string = column.field;
 
     // if dot seperator is used in a field name
@@ -37,7 +42,11 @@ export class FiTableCellComponent {
     let cellvalue = row[propertyName];
 
     if (cellvalue === undefined) {
-      return 'null';
+      if(column.isNullShow){
+        return 'null';
+      }else{
+        return '';
+      }
     }
 
     if (column.colType === FiColType.double) {

@@ -10,7 +10,7 @@ export class FiTableCol implements IFiField {
   field: string;
   filtering?: FiFilter;
   autoFilter?: boolean;
-  sort?: any;
+  sortStatus?: any;
   sortable?: boolean;
   className?: any;
   colType?: FiColType;
@@ -37,6 +37,7 @@ export class FiTableCol implements IFiField {
   isHighlighted?: boolean;
   // Form elemanları için
   isDisabled?:boolean;
+  isNullShow?:boolean;
 
   public buildPrefSize?(prefSizeTx: string): FiTableCol {
     this.prefSize = prefSizeTx;

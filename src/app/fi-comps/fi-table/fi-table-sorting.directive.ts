@@ -36,19 +36,19 @@ export class FiTableSortingDirective {
 
 
 
-    if (this.fiTableSorting && this.column && this.column.sort !== false) {
+    if (this.fiTableSorting && this.column && this.column.sortStatus !== false) {
 
-      this.column.sortPrevious= this.column.sort;
+      this.column.sortPrevious= this.column.sortStatus;
 
-      switch (this.column.sort) {
+      switch (this.column.sortStatus) {
         case 'asc':
-          this.column.sort = 'desc';
+          this.column.sortStatus = 'desc';
           break;
         case 'desc':
-          this.column.sort = '';
+          this.column.sortStatus = '';
           break;
         default:
-          this.column.sort = 'asc';
+          this.column.sortStatus = 'asc';
           break;
       }
 
