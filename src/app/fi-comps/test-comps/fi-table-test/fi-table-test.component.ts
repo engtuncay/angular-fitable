@@ -50,7 +50,8 @@ export class FiTableTestComponent implements OnInit {
         filterAuto: true,
         sorting: {columns: this.columns},
         pagingDisable: false,
-        pageSize:6
+        pageSize:6,
+        rows:[]
     };
 
     // Methods
@@ -60,7 +61,7 @@ export class FiTableTestComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.tblTest.rows = TableData; //this.data;
+        this.tblTest.fiTableComp.rows = TableData; //this.data;
     }
 
     public onCellClick(data: any): any {

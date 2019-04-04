@@ -1,22 +1,19 @@
-import {FiTableCol} from './fi-table-col';
-import {FiFilter} from './fi-filter';
-import {FiTableComponent} from './fi-table.component';
+import {FiTableCol} from '../fi-table/fi-table-col';
+import {FiFilter} from '../fi-table/fi-filter';
+import {FiTableComponent} from '../fi-table/fi-table.component';
 
-export class FiTableConfig {
+export class FiTableModel {
 
   /**
    * Paging properties
    */
-
+  
   pagingDisable?: boolean;
   pageSize?: number;
-  pagingVirtual?: boolean;
+  pagingVirtual?:boolean;
   dataLength?: number;
 
-  /**
-   * Example : 70vh (default)
-   */
-  tableHeight?: string;
+  tableHeight?:string;
   /**
    * Type: Any = Boolean or String
    *
@@ -50,12 +47,12 @@ export class FiTableConfig {
    *  Otomatik tüm sütunlar filtrelerini gösterir
    */
   filterAuto?: boolean;
-  fiTableComp?: FiTableComponent;
+  fiTableComp?:FiTableComponent;
 
-  rows?: any[];
+  private rows?:any[];
 
-  setRows?(rowsData: any[]) {
-    this.rows = rowsData;
+  setRows?(rowsData:any[]){
+    this.rows= rowsData;
   }
 
 }

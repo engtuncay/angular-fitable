@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 import {FiColType, FiEditorType} from './FiTableEnums';
 import {FiTableConfig} from './fi-table-config';
@@ -48,7 +48,7 @@ export class FiTableComponent implements OnInit {
   // for getter and setters
   private _rows: any[] = [];
   private _columns: FiTableCol[] = [];
-  private _config: FiTableConfig = {};
+  private _fimodal: FiTableConfig = {rows:[]};
 
   // Template'den Enum ve Tiplere ulaşmak için tanımlandı.
   fiEditorType = FiEditorType;
@@ -58,8 +58,9 @@ export class FiTableComponent implements OnInit {
 
   // Pencerenin boyutuna göre template tasarımı için
   public innerWidth: any;
+  isVirtualDataState: boolean;
 
-  public constructor(private sanitizer: DomSanitizer, private datepipe: DatePipe, private slicePipe: SlicePipe) {
+  public constructor(private sanitizer: DomSanitizer, private datepipe: DatePipe, private slicePipe: SlicePipe,private changeDetectorRef:ChangeDetectorRef) {
 
   }
 
@@ -71,10 +72,12 @@ export class FiTableComponent implements OnInit {
     //this.onChangeTable(this.config);
     //this.rowsFiltered = this.rows;
     this.innerWidth = window.innerWidth;
-    this.config.fiTableComp = this;
+    this.fimodal.fiTableComp = this;
+    this.rows = this.fimodal.rows;
+    this.columns = this.fimodal.columns;
   }
 
-  @Input()
+  //@Input()
   public set rows(rowsData: any[]) {
 
     console.log('Set Rows On FiTable');
@@ -88,6 +91,11 @@ export class FiTableComponent implements OnInit {
       element.fiIndex = index;
     }
 
+    // Sanal Sayfalama Yoksa RowsData uzunluğu toplam uzunluk olarak alınır.
+    if (!this.fimodal.pagingVirtual) {
+      this.totalDataLength = rowsData.length;
+    }
+
     this._rows = rowsData;
     this.rowsFiltered = rowsData;
     this.filterAndSortTable(null);
@@ -99,7 +107,7 @@ export class FiTableComponent implements OnInit {
   }
 
   @Input()
-  public set config(conf: FiTableConfig) {
+  public set fimodal(conf: FiTableConfig) {
 
     // FIXME class diger string olarak gönderilebilir
     // Classname array olarak gelmişse onlar birleştirilir.
@@ -124,7 +132,7 @@ export class FiTableComponent implements OnInit {
       this.pageSize = conf.pageSize;
     }
 
-    this._config = conf;
+    this._fimodal = conf;
 
     //col ve row input ile almalı, burada alınca değişimleri takip etmiyor, non-reactive
     //this.columns = conf.columns;
@@ -132,11 +140,11 @@ export class FiTableComponent implements OnInit {
 
   }
 
-  public get config(): FiTableConfig {
-    return this._config;
+  public get fimodal(): FiTableConfig {
+    return this._fimodal;
   }
 
-  @Input()
+  //@Input()
   public set columns(fiColumns: FiTableCol[]) {
 
     fiColumns.forEach((value: FiTableCol) => {
@@ -236,7 +244,7 @@ export class FiTableComponent implements OnInit {
     //console.log('rows:',this._rows );
     //console.log('config:', this.config);
 
-    const filteredData = this.filterData(this._rows, this.config);
+    const filteredData = this.filterData(this._rows, this.fimodal);
     const sortedData = this.sortData(filteredData, columnToSort);
 
     // FIXME buradaki eski yapı düzeltilmedi
@@ -270,11 +278,11 @@ export class FiTableComponent implements OnInit {
       return filteredData;
     }
 
-    if (!this.config.sorting) {
+    if (!this.fimodal.sorting) {
       return filteredData;
     }
 
-    const columns = this.config.sorting.columns || [];
+    const columns = this.fimodal.sorting.columns || [];
     let columnName: string = void 0;
     let sort: string = void 0;
 
@@ -398,25 +406,33 @@ export class FiTableComponent implements OnInit {
     return cellvalue;
   }
 
-  public cellClick(row: any, column: any): void {
+  public onCellClick(row: any, column: any): void {
     //console.log('cell click event on Table Component');
     this.cellClicked.emit({row, column});
   }
 
-  public rowClick(event: any, item: any) {
+  public onRowClick(event: any, item: any) {
     //console.log('row click event:');
     //console.log(event);
     this.currentItem = item;
   }
 
-  changePage(config: FiTableConfig, $event: number, ngbPagination: NgbPagination) {
+  onChangePage(config: FiTableConfig, $event: number, ngbPagination: NgbPagination, tableDiv: HTMLDivElement) {
 
-    let pageChangeEvent: FiEventPageChange = {config, pageNumber: $event};
+    console.log('page:', this.page);
+    console.log('pageSize:', this.pageSize);
+    console.log('config:', config);
 
+    // Yeterli sayıda data varsa sayfa değişti olayı göndermez
+    if (!this.isVirtualDataState && $event * this.fimodal.pageSize < this.rowsFiltered.length) {
+      this.rowsSliced=[];
+      this.sliceTable();
+      return;
+    }
+
+    let pageChangeEvent: FiEventPageChange = {config, pageNumber: $event, tableDiv};
     this.pageChanged.emit(pageChangeEvent);
-    console.log('page', this.page);
-    console.log('pageSize', this.pageSize);
-    console.log('config', config);
+    //this.tableDiv.scrollTop=0;
     this.sliceTable();
 
     //listSlice(this.rows,this.page,this.pageSize)
@@ -464,13 +480,18 @@ export class FiTableComponent implements OnInit {
   }
 
   private sliceTable() {
-    if (!this.config.pagingDisable) {
+    if (!this.fimodal.pagingDisable) {
 
-      if (!this.config.pagingVirtual) {
-        let startIndex = (this.page - 1) * this.pageSize;
-        let endIndex = (this.page - 1) * this.pageSize + this.pageSize;
-        this.rowsSliced = this.slicePipe.transform(this.rowsFiltered, startIndex, endIndex);
-      } else {
+      if(!this.isVirtualDataState){
+      //if (!this.fimodal.pagingVirtual) {
+      let startIndex = (this.page - 1) * this.pageSize;
+      let endIndex = startIndex + this.pageSize;
+      this.rowsSliced = this.slicePipe.transform(this.rowsFiltered, startIndex, endIndex);
+      //}
+      // else {
+      //   this.rowsSliced = this.rowsFiltered;
+      // }
+      }else{  // virtual data durumunda ise , sliced işlemi yapmaz
         this.rowsSliced = this.rowsFiltered;
       }
 
@@ -483,8 +504,8 @@ export class FiTableComponent implements OnInit {
   getLength() {
     //console.log('Page Length Called',this.config.dataLength);
 
-    if (this.config.pagingVirtual) {
-      return this.config.dataLength;
+    if (this.fimodal.pagingVirtual) {
+      return this.fimodal.dataLength;
     }
 
 
@@ -493,19 +514,24 @@ export class FiTableComponent implements OnInit {
     //return this.config.dataLength;
   }
 
-  getTableHeight():string {
+  getTableHeight(): string {
 
-    if(this.config.tableHeight) {
-      return this.config.tableHeight;
+    if (this.fimodal.tableHeight) {
+      return this.fimodal.tableHeight;
     }
 
     return '70vh';
 
   }
 
-  addRowToTop(row:any){
+  addRowToTop(row: any) {
     this.rows.unshift(row);
     this.rowsSliced.unshift(row);
   }
+
+  triggerChangeDetector(){
+    this.changeDetectorRef.markForCheck();
+  }
+
 
 }

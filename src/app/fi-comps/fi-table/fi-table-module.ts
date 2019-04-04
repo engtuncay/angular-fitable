@@ -7,9 +7,10 @@ import {FiTableSortingDirective} from './fi-table-sorting.directive';
 import {FiTableComponent} from './fi-table.component';
 import {FormsModule} from '@angular/forms';
 import {FiTableCellComponent} from './fi-table-cell.component';
+import {NgSelectModule} from '@ng-select/ng-select';
 
 @NgModule({
-  imports: [CommonModule, NgbModule, FormsModule],
+  imports: [CommonModule, NgbModule, FormsModule, NgSelectModule],
   declarations: [FiTableComponent, FiTableFilteringDirective, FiTablePagingDirective, FiTableSortingDirective,FiTableCellComponent],
   exports: [FiTableComponent, FiTableFilteringDirective, FiTablePagingDirective, FiTableSortingDirective,FiTableCellComponent]
 })

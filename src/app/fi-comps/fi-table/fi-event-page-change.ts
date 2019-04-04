@@ -6,5 +6,6 @@ export class FiEventPageChange {
   config?:FiTableConfig;
   pageNumber?:number;
   ngbPagination?:NgbPagination;
+  tableDiv?:HTMLDivElement;
 
 }

@@ -17,6 +17,13 @@ table td {
 
 }
 
+th {
+  position:sticky;
+  top:0;
+  border: 1px solid #000;
+  background-color: lightgray;
+}
+
 
 .highlightRow {
   background-color: #fcf8e3;

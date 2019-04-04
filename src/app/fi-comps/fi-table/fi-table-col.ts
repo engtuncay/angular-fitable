@@ -99,4 +99,13 @@ export class FiTableCol implements IFiField {
     return this;
   }
 
+  buildHeader?(headerValue: string) {
+    this.header = headerValue;
+    return this;
+  }
+
+  buildValue?(value: any) {
+    this.editorValue = value;
+    return this;
+  }
 }

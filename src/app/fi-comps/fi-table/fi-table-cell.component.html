@@ -1,11 +1,13 @@
-<ng-template [ngIf]="!column.editorType">
+<ng-template [ngIf]="!row['fiEditable'] || !column.editorType">
 
   <ng-template [ngIf]="column.colType===fiColtype.double">
-    <span [innerHtml]="sanitize(getData(row, column))"></span>
+    <!--<span [innerHtml]="sanitize(getData(row, column))"></span>-->
+    {{getData(row,column)}}
   </ng-template>
 
   <ng-template [ngIf]="column.colType===fiColtype.integer">
-    <span [innerHtml]="sanitize(getData(row, column))"></span>
+   <!-- <span [innerHtml]="sanitize(getData(row, column))"></span>-->
+    {{getData(row,column)}}
   </ng-template>
 
   <ng-template [ngIf]="column.colType===fiColtype.date">
@@ -13,7 +15,8 @@
   </ng-template>
 
   <ng-template [ngIf]="column.colType===fiColtype.string">
-    <span [innerHtml]="sanitize(getData(row, column))"></span>
+    <!----><span [innerHtml]="sanitize(getData(row, column))"></span>
+    {{getData(row,column)}}
   </ng-template>
 
   <ng-template [ngIf]="column.colType===fiColtype.boolean">
@@ -21,7 +24,8 @@
   </ng-template>
 
   <ng-template [ngIf]="column.colType===undefined">
-    <span [innerHtml]="sanitize(getData(row, column))"></span>
+    <!--<span [innerHtml]="sanitize(getData(row, column))"></span>-->
+    {{getData(row,column)}}
   </ng-template>
 
   <!--<span *ngIf="column.colType==ozcoltype.boolean">
@@ -32,4 +36,11 @@
 <ng-template [ngIf]="column.editorType===fiEditorType.Button">
   <button class="btn" #fiButton
           (click)="column.editorAction(row,null,column,fiButton)">{{column.editorHeader}}{{editorUserRenderer(column, row, null, fiButton)}}</button>
+</ng-template>
+
+<ng-template [ngIf]="row['fiEditable'] && column.editorType === fiEditorType.NgSelect">
+  <ng-select [items]="column.editorItems" [(ngModel)]="row[column.field]"
+             bindLabel="label" bindValue="value"
+             name="NgSelect" placeholder="{{column.header}}">
+  </ng-select>
 </ng-template>

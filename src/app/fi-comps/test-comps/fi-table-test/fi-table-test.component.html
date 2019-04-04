@@ -8,9 +8,7 @@
 </div>
 <br>
 <!-- (tableChanged)="onChangeTable(config)" çıkartıldı -->
-<fi-table [config]="tblTest"
-          [rows]="tblTest.rows"
-          [columns]="tblTest.columns"
+<fi-table [fimodal]="tblTest"
           (cellClicked)="onCellClick($event)">
 </fi-table>
 

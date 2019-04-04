@@ -1,4 +1,4 @@
-export class FiReturn {
+export class FiResponse {
 
   blResult: boolean;
   obReturn: any;   // T
@@ -7,9 +7,10 @@ export class FiReturn {
   lnRowsAffected: number;
   obResponse: any;    //System.Object
   lnIdAffected: number;
+  lnTotalLength?:number;
 
   static factoryErrorShort(txErrorMsgShort: string) {
-    let fiReturn = new FiReturn();
+    let fiReturn = new FiResponse();
     fiReturn.txErrorMsgShort = txErrorMsgShort;
     return fiReturn;
   }
