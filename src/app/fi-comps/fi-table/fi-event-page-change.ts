@@ -1,9 +1,9 @@
-import {FiTableConfig} from './fi-table-config';
 import {NgbPagination} from '@ng-bootstrap/ng-bootstrap';
+import {FiTableModal} from '../fim-table/fi-table-modal';
 
 export class FiEventPageChange {
 
-  config?:FiTableConfig;
+  tableModal?:FiTableModal;
   pageNumber?:number;
   ngbPagination?:NgbPagination;
   tableDiv?:HTMLDivElement;

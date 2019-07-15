@@ -2,7 +2,8 @@
 
 <ng-template [ngIf]="innerWidth>=600">
 
-  <div #tableDiv style="width:content-box; overflow-y:scroll;overflow-x: hidden" [ngStyle]="{'height': getTableHeight()}">
+  <div #tableDiv style="width:content-box; overflow-y:scroll;overflow-x: hidden"
+       [ngStyle]="{'height': getTableHeight()}">
     <table class="table-responsive-sm fiTable fixed_header" ngClass="{{fimodal.className || ''}}"
            style="width: 100%; table-layout: fixed;">
       <!-- role="grid", class dan dataTable çıkarıldı -->
@@ -11,25 +12,25 @@
 
       <tr role="row">
         <!-- ngtablesorting directive -->
-        <th #fiTableHeader *ngFor="let column of columns" [fiTableSorting]="fimodal" [column]="column"
+        <th #fiTableHeader *ngFor="let column of fimodal.getColumns()" [fiTableSorting]="fimodal" [column]="column"
             (sortChanged)="onSortTable($event)"
             [ngStyle]="{ 'width' : column.prefSize, 'min-width': column.minSize }"
             ngClass="{{column.className || ''}}">
-          {{styleFiTableHeader(fiTableHeader, column)}}
+          {{styleTableHeader(fiTableHeader, column)}}
           {{column.header}}
           <i *ngIf="fimodal && column.sortStatus" class="pull-right fa"
              [ngClass]="{'fa-chevron-down': column.sortStatus === 'desc', 'fa-chevron-up': column.sortStatus === 'asc'}"></i>
         </th>
       </tr>
-
-      <tr *ngIf="showFilterRow">
-        <td *ngFor="let column of columns">
-          <input #filterComp *ngIf="column.filtering || fimodal.filterAuto"
-                 placeholder="{{column.filtering?.placeholder}}"
-                 [ngTableFiltering]="column.filtering"
-                 class="form-control" style="width: auto;" (tableChanged)="filterAndSortTable(column)"
-                 (keyup.enter)="onFilterUserAction(column,filterComp)"
-          />
+      <!--[ngTableFiltering]="column.filtering" -->
+      <tr *ngIf="fimodal.showFilterRow">
+        <td *ngFor="let column of fimodal.getColumns()">
+          <input #filterComp *ngIf="column.filterable || column.filtering || fimodal.filterAuto"
+                 placeholder="{{column.filterPlaceholder}}"
+                 [ngTableFiltering]="column"
+                 [ngTableFiltering]="column"
+                 class="form-control" style="width: auto;" (filterChanged)="onFilterAndSortTable(column)"
+                 (keyup.enter)="onFilterEnterAction(column,filterComp)"/>
         </td>
       </tr>
 
@@ -37,40 +38,46 @@
 
       <tbody>
 
-      <ng-template>
-        <!--slice pipe -->
-        <!--| slice: (page-1) * pageSize : (page-1) * pageSize + pageSize -->
-      </ng-template>
+      <!---->
+      <!--{{column.editorType}}<br>-->
 
-      <tr #fiTableTr *ngFor="let row of rowsSliced"
-          [class.active]="currentItem===row" (click)="onRowClick($event,row)">
-        {{styleTableRow(fiTableTr, row)}}
-        <td #fiTableTd (click)="onCellClick(row, column.field)" *ngFor="let column of columns"
-            ngClass="{{column.colClassName || ''}}">
-          {{styleTableCell(fiTableTd, column)}}
-          <!--{{column.editorType}}<br>-->
-          <fi-table-cell [column]="column" [row]="row"></fi-table-cell>
-        </td>
+      <ng-container *ngFor="let row of fimodal.rowsSliced">
 
-      </tr>
-      
+        <tr #fiTableTr (click)="onRowClick($event,row)"
+            [class.active]="fimodal.currentItemId && fimodal.currentItemId===row['fiIndex']">
+          {{styleTableRow(fiTableTr, row)}}
+          <td #fiTableTd (click)="onCellClick(row, column.field)" *ngFor="let column of fimodal.getColumns()"
+              ngClass="{{column.colClassName || ''}}">
+            {{styleTableCell(fiTableTd, column)}}
+            <fi-table-cell [column]="column" [row]="row"></fi-table-cell>
+          </td>
+        </tr>
+
+
+      </ng-container>
+
+
       </tbody>
 
     </table>
 
   </div>
-  <div class="mt-3">
-    <ng-template [ngIf]="!fimodal.pagingDisable">
+  <ng-template [ngIf]="checkPaginationEnable()">
+    <div id="pagePanel" class="mt-3">
       <ngb-pagination #ngbPagination
-                      [(page)]="page"
-                      [pageSize]="pageSize" [ellipses]="true"
-                      [collectionSize]="totalDataLength" [maxSize]="10" [boundaryLinks]="true"
+                      [(page)]="fimodal.page"
+                      [pageSize]="fimodal.pageSize" [ellipses]="true"
+                      [collectionSize]="fimodal.totalDataLength" [maxSize]="10" [boundaryLinks]="true"
                       (pageChange)="onChangePage(fimodal,$event,ngbPagination,tableDiv)">
       </ngb-pagination>
-    </ng-template>
-  </div>
-</ng-template>
+      <!--<ng-template [ngIf]="!fimodal.pagingDisable">
+        <app-fi-paging [totalLength]="totalDataLength"></app-fi-paging>
+      </ng-template>-->
+    </div>
+  </ng-template>
 
+</ng-template>
+<!-- Mobil Tema için -->
 <ng-template [ngIf]="innerWidth<600">
 
   <button class="btn btn-secondary" (click)="toggleFiltre()">Filtre</button>
@@ -85,12 +92,12 @@
 
         <table class="table-bordered borderMedium" style="width: 100%; table-layout: fixed;">
           <!-- ngtablesorting directive -->
-          <tr *ngFor="let column of columns">
+          <tr *ngFor="let column of fimodal.getColumns()">
 
             <td #fiTableHeader [fiTableSorting]="fimodal" [column]="column"
                 (sortChanged)="onSortTable($event)"
                 ngClass="{{column.className || ''}}">
-              {{styleFiTableHeader(fiTableHeader, column)}}
+              {{styleTableHeader(fiTableHeader, column)}}
               {{column.header}}
               <i *ngIf="fimodal && column.sortStatus" class="pull-right fa"
                  [ngClass]="{'fa-chevron-down': column.sortStatus === 'desc', 'fa-chevron-up': column.sortStatus === 'asc'}"></i>
@@ -98,13 +105,13 @@
 
 
             <td>
-              <ng-template [ngIf]="showFilterRow">
+              <ng-template [ngIf]="fimodal.showFilterRow">
 
                 <input #filterComp *ngIf="column.filtering || fimodal.filterAuto"
                        placeholder="{{column.filtering?.placeholder}}"
                        [ngTableFiltering]="column.filtering"
-                       class="form-control" style="width: auto;" (tableChanged)="filterAndSortTable(column)"
-                       (keyup.enter)="onFilterUserAction(column,filterComp)"
+                       class="form-control" style="width: auto;" (filterChanged)="onFilterAndSortTable(column)"
+                       (keyup.enter)="onFilterEnterAction(column,filterComp)"
                 />
 
               </ng-template>
@@ -115,17 +122,18 @@
       </tr>
 
       <tr class="" #fiTableTr
-          *ngFor="let row of rowsFiltered | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;index as rowIndex"
+          *ngFor="let row of fimodal.rowsFiltered
+          | slice: (fimodal.page-1) * fimodal.pageSize : (fimodal.page-1) * fimodal.pageSize + fimodal.pageSize;index as rowIndex"
           [class.highlightRow]="rowIndex%2==0"
-          [class.active]="currentItem===row" (click)="onRowClick($event,row)">
+          [class.active]="fimodal.currentItem===row" (click)="onRowClick($event,row)">
         {{styleTableRow(fiTableTr, row)}}
 
         <table class="table-bordered borderMedium" style="width: 100%; table-layout: fixed;">
           <!-- ngtablesorting directive -->
-          <tr *ngFor="let column of columns">
+          <tr *ngFor="let column of fimodal.getColumns()">
             <td #fiTableHeader
                 ngClass="{{column.className || ''}}">
-              {{styleFiTableHeader(fiTableHeader, column)}}
+              {{styleTableHeader(fiTableHeader, column)}}
               {{column.header}}
               <i *ngIf="fimodal && column.sortStatus" class="pull-right fa"
                  [ngClass]="{'fa-chevron-down': column.sortStatus === 'desc', 'fa-chevron-up': column.sortStatus === 'asc'}"></i>
@@ -146,14 +154,13 @@
 
     </table>
 
-    <ng-template [ngIf]="!fimodal.pagingDisable">
+    <ng-template [ngIf]="checkPaginationEnable()">
       <ngb-pagination #ngbPagination
-                      [(page)]="page"
-                      [pageSize]="pageSize"
-                      [collectionSize]="getLength()"
+                      [(page)]="fimodal.page"
+                      [pageSize]="fimodal.pageSize"
+                      [collectionSize]="fimodal.totalDataLength"
                       (pageChange)="onChangePage(fimodal,$event,ngbPagination,tableDivMobile)">
       </ngb-pagination>
-
     </ng-template>
   </div>
 

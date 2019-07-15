@@ -9,6 +9,9 @@ export class FiTableCol implements IFiField {
   header: string;
   field: string;
   filtering?: FiFilter;
+  filterValue?:any;
+  filterable?:boolean;
+  filterPlaceholder?:string;
   autoFilter?: boolean;
   sortStatus?: any;
   sortable?: boolean;
@@ -32,7 +35,7 @@ export class FiTableCol implements IFiField {
   summaryFunc?: any;
   fiEditable?: boolean;
   fiHidden?: boolean;
-  filterAction?: (ficolumn: FiTableCol, fiComp: any) => void;
+  filterEnterAction?: (ficolumn: FiTableCol, fiComp: any) => void;
   /* In excel,or print it should be highlighted with yellow or soft grey*/
   isHighlighted?: boolean;
   // Form elemanları için

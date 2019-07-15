@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {TableData, TableData2} from '../../fi-table/table-data';
-import {FiTableConfig} from '../../fi-table/fi-table-config';
 import {FiColType, FiEditorType} from '../../fi-table/FiTableEnums';
 import {FiTableCol} from '../../fi-table/fi-table-col';
+import {FiTableModal} from '../../fim-table/fi-table-modal';
 
 @Component({
     selector: 'fi-table-test-comp',
@@ -15,10 +15,10 @@ export class FiTableTestComponent implements OnInit {
     public columns: FiTableCol[] = [
         {
             header: 'Name', field: 'name', filtering: {filterString: '', placeholder: 'Filter by name'},
-            filterAction: (ficolumn, fiComp) => {
+            filterEnterAction: (ficolumn, fiComp) => {
                 //console.log('fiCol:', ficolumn);
                 //console.log('FiComp:', fiComp);
-                this.tblTest.rows = TableData2;
+                this.tblTest.setRows(TableData2);
                 //console.log('testComp:config rows set edildi');
             },prefSize:'150px'
         },
@@ -44,15 +44,13 @@ export class FiTableTestComponent implements OnInit {
 
     //public length = 0;
 
-    public tblTest: FiTableConfig = {
+    public tblTest: FiTableModal = new FiTableModal().buildConfig({
         columns: this.columns,
         className: ['table-bordered'],
         filterAuto: true,
         sorting: {columns: this.columns},
-        pagingDisable: false,
         pageSize:6,
-        rows:[]
-    };
+    });
 
     // Methods
 
@@ -61,7 +59,7 @@ export class FiTableTestComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.tblTest.fiTableComp.rows = TableData; //this.data;
+        this.tblTest.setRows(TableData); //this.data;
     }
 
     public onCellClick(data: any): any {

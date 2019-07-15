@@ -1,11 +1,11 @@
 import {Directive, EventEmitter, HostListener, Input, Output} from '@angular/core';
-import {FiTableConfig} from './fi-table-config';
 import {FiTableCol} from './fi-table-col';
+import {FiTableModal} from '../fim-table/fi-table-modal';
 
 @Directive({selector: '[fiTableSorting]'})
 export class FiTableSortingDirective {
 
-  @Input() public fiTableSorting:FiTableConfig;
+  @Input() public fiTableSorting:FiTableModal;
   @Input() public column:FiTableCol;
 
   @Output() public sortChanged:EventEmitter<any> = new EventEmitter();

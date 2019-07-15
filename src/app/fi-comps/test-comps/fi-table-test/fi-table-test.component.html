@@ -3,7 +3,7 @@
     <input *ngIf="tblTest.filterAll" placeholder="Filter all columns"
            [ngTableFiltering]="tblTest.filterAll"
            class="form-control"
-           (tableChanged)="onChangeTable()"/>
+           (filterChanged)="onChangeTable()"/>
   </div>
 </div>
 <br>

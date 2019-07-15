@@ -1,10 +1,10 @@
 export enum FiColType {
-  double = 0
-  , string = 1
-  , integer = 2
-  , boolean = 3
-  , date = 4
-  , datetime = 5
+  double = 1
+  ,string = 2
+  ,integer = 3
+  ,boolean = 4
+  ,date = 5
+  ,datetime = 6
 }
 
 export class FiEditorType {
@@ -13,6 +13,13 @@ export class FiEditorType {
   static TextBox = 'TextBox';
   static NgSelect = 'NgSelect';
   static NgbDatePicker = 'NgbDatePicker';
+}
+
+export enum FiTableDataType {
+  plainTable = 1,
+  pagingWithLocalData=2,
+  pagingWithCachedData=3,
+  pagingWithRemoteData=4,
 }
 
 

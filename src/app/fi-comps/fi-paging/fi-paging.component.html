@@ -1,0 +1,16 @@
+<ul class="pagination">
+  <li>
+    <a class="page-link">
+      <span aria-hidden="true">«</span>
+    </a>
+  </li>
+  <li *ngFor="let page of getData(); let x =index" class="page-item page-link" (click)="onPageRequest(page)"
+      [class.bg-yellow]="pageActive && pageActive.toString()==page">
+    {{page}}
+  </li>
+  <li>
+    <a class="page-link">
+      <span aria-hidden="true">»</span>
+    </a>
+  </li>
+</ul>
